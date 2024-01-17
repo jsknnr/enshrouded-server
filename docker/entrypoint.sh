@@ -2,8 +2,8 @@
 
 # Validate arguments
 if [ -z "$SERVER_NAME" ]; then
-    SERVER_NAME="Enshrouded by jsknnr"
-    echo "WARN: SERVER_NAME not set, using default: Enshrouded by jsknnr"
+    SERVER_NAME="Enshrouded Containerized"
+    echo "WARN: SERVER_NAME not set, using default: Enshrouded Containerized"
 fi
 
 if [ -z "$SERVER_PASSWORD" ]; then
