@@ -8,7 +8,7 @@ Run Enshrouded dedicated server in a container. Optionally includes helm chart f
 **Disclaimer:** This is not an official image. No support, implied or otherwise is offered to any end user by the author or anyone else. Feel free to do what you please with the contents of this repo.
 ## Usage
 
-The processes within the container do **NOT** run as root. Everything runs as the user steam (gid:1000/uid:1000). If you exec into the container, you will drop into `/home/steam` as the steam user. Necesse will be installed to `/home/steam/enshrouded`. Any persistent volumes should be mounted to `/home/steam/enshrouded/savegame`.
+The processes within the container do **NOT** run as root. Everything runs as the user steam (gid:1000/uid:1000). If you exec into the container, you will drop into `/home/steam` as the steam user. Enshrouded will be installed to `/home/steam/enshrouded`. Any persistent volumes should be mounted to `/home/steam/enshrouded/savegame`.
 
 ### Ports
 
@@ -21,7 +21,7 @@ The processes within the container do **NOT** run as root. Everything runs as th
 
 | Name | Description | Default | Required |
 | ---- | ----------- | ------- | -------- |
-| SERVER_NAME | Name for the Server | Enshrouded by jsknnr | False |
+| SERVER_NAME | Name for the Server | Enshrouded Containerized | False |
 | SERVER_PASSWORD | Password for the server | None | True |
 | GAME_PORT | Port for server connections | 15636 | False |
 | QUERY_PORT | Port for steam query of server | 15637 | False |
