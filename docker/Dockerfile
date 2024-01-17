@@ -34,7 +34,7 @@ COPY winetricks.sh /home/steam/winetricks.sh
 COPY enshrouded_server_example.json /home/steam/enshrouded_server_example.json
 
 RUN mkdir "$ENSHROUDED_PATH" \
-    && mkdir "$ENSHROUDED_PATH"/savegame
+    && mkdir "$ENSHROUDED_PATH"/savegame \
     && mkdir "$WINEPREFIX" \
     && mkdir /home/steam/steamcmd \
     && curl -sqL https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz | tar zxvf - -C /home/steam/steamcmd \
