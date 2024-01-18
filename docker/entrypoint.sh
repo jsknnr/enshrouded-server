@@ -37,11 +37,12 @@ if ! [ -f "${ENSHROUDED_PATH}/enshrouded_server.json" ]; then
 fi
 
 # Modify server config to match our arguments
-jq -i '.name = "${SERVER_NAME}"' ${ENSHROUDED_PATH}/enshrouded_server.json
-jq -i '.password = "${SERVER_PASSWORD}"' ${ENSHROUDED_PATH}/enshrouded_server.json
-jq -i '.gamePort = "${GAME_PORT}"' ${ENSHROUDED_PATH}/enshrouded_server.json
-jq -i '.queryPort = "${QUERY_PORT}"' ${ENSHROUDED_PATH}/enshrouded_server.json
-jq -i '.slotCount = "${SERVER_SLOTS}"' ${ENSHROUDED_PATH}/enshrouded_server.json
+tmpfile=$(mktemp)
+jq --arg n "$SERVER_NAME" '.name = $n' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
+jq --arg p "$SERVER_PASSWORD" '.password = $p' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
+jq --arg g "$GAME_PORT" '.gamePort = $g' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
+jq --arg q "$QUERY_PORT" '.queryPort = $q' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
+jq --arg s "$SERVER_SLOTS" '.slotCount = $s' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
 
 # Wine talks too much and it's annoying
 export WINEDEBUG=-all
