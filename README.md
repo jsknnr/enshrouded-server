@@ -1,7 +1,11 @@
 # enshrouded-server
 
+[![Docker Pulls](https://img.shields.io/docker/pulls/sknnr/enshrouded-dedicated-server)](https://hub.docker.com/r/sknnr/enshrouded-dedicated-server) [![GitHub last commit (branch)](https://img.shields.io/github/last-commit/jsknnr/enshrouded-server/main)](https://github.com/jsknnr/enshrouded-server) [![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/jsknnr/enshrouded-server/publish_image.yaml)](https://github.com/jsknnr/enshrouded-server/actions/workflows/publish_image.yaml)
+
 **NOTICE**
-This image is not yet live as I do not have access to dedicated server files yet to test. I will remove this notice once that happens which should be 1/24/2024.
+This image will not be fully functional until the dedicated server binaries are released which I am anticipating to be 1/24/2024.
+
+
 
 Run Enshrouded dedicated server in a container. Optionally includes helm chart for running in Kubernetes.
 
