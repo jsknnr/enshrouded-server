@@ -2,6 +2,7 @@ FROM debian:12
 
 ENV DEBIAN_FRONTEND "noninteractive"
 ENV ENSHROUDED_PATH "/home/steam/enshrouded"
+ENV ENSHROUDED_CONFIG "${ENSHROUDED_PATH}/enshrouded_server.json"
 ENV WINEPREFIX "/home/steam/.enshrouded_prefix"
 ENV WINEARCH "win64"
 
