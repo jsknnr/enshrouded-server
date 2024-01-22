@@ -1,7 +1,7 @@
 name: Build and push Docker image
 on:
   release:
-    types: [created]
+    types: [published]
 
 jobs:
   build-push:
