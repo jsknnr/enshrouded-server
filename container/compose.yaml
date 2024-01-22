@@ -1,0 +1,13 @@
+services:
+  enshrouded:
+    image: sknnr/enshrouded-dedicated-server:latest
+    ports:
+      - "15636:15636/udp"
+      - "15637:15637/udp"
+    env_file:
+      - default.env
+    volumes:
+      - enshrouded-persistent-data:/home/steam/enshrouded/savegame
+
+volumes:
+  enshrouded-persistent-data:
