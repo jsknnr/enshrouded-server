@@ -16,7 +16,7 @@ jobs:
         with:
           image: enshrouded-dedicated-server
           context: ./container
-          containerfiles: Containerfile
+          containerfiles: ./container/Containerfile
           tags: latest ${{ github.event.release.tag_name }} # Use latest and the release tag
 
       - name: Push image to Docker Hub
