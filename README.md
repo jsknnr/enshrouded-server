@@ -36,11 +36,11 @@ The processes within the container do **NOT** run as root. Everything runs as th
 To run the container in Docker, run the following command:
 
 ```bash
-mkdir enshrouded-persistent-data
+docker volume create enshrouded-persistent-data
 docker run \
   --detach \
   --name enshrouded-server \
-  --mount type=bind,source=$(pwd)/enshrouded-persistent-data,target=/home/steam/enshrouded/savegame \
+  --mount type=volume,source=enshrouded-persistent-data,target=/home/steam/enshrouded/savegame \
   --publish 15636:15636/udp \
   --publish 15637:15637/udp \
   --env=SERVER_NAME="Enshrouded Containerized Server" \
@@ -51,7 +51,39 @@ docker run \
   sknnr/enshrouded-dedicated-server:latest
 ```
 
-Where ever you create the `enshrouded-persistent-data` directory is where the world save is going to go. If you delete that directory you will lose your save. That directory will be mounted into the container.
+### Docker Compose
+
+To use Docker Compose, either clone this repo or copy the `compose.yaml` and `default.env` files out of the `container` directory to your local machine. You can leave the `compose.yaml` file uncahnged. Edit the `default.env` file to change the environment variables to the values you desire and then save the changes. Once you have made your changes, from the same directory that contains both the env file and the compose file, simply run:
+
+```bash
+docker compose up -d -f compose.yaml
+```
+
+To bring the container down:
+
+```bash
+docker compose down -f compose.yaml
+```
+
+### Podman
+
+To run the container in Podman, run the following command:
+
+```bash
+podman volume create enshrouded-persistent-data
+podman run \
+  --detach \
+  --name enshrouded-server \
+  --mount type=volume,source=enshrouded-persistent-data,target=/home/steam/enshrouded/savegame \
+  --publish 15636:15636/udp \
+  --publish 15637:15637/udp \
+  --env=SERVER_NAME="Enshrouded Containerized Server" \
+  --env=SERVER_SLOTS=16 \
+  --env=SERVER_PASSWORD="ChangeThisPlease" \
+  --env=GAME_PORT=15636 \
+  --env=QUERY_PORT=15637 \
+  docker.io/sknnr/enshrouded-dedicated-server:latest
+```
 
 ### Kubernetes
 
