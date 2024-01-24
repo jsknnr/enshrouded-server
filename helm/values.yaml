@@ -11,8 +11,8 @@ volumes:
     size: 50Gi
   storageClassName: ""
 env:
-  serverName: "Enshrouded Server"
-  serverPassword: "picksomethingawesome"
+  serverName: 'Enshrouded Server'
+  serverPassword: 'picksomethingawesome'
   gamePort: 15636
   queryPort: 15637
   serverSlots: 16

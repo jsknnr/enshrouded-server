@@ -27,15 +27,15 @@ spec:
 {{ toYaml .Values.resources | indent 10 }}
         env:
         - name: SERVER_NAME
-          value: {{ .Values.env.serverName | quote }}
+          value: {{ .Values.env.serverName | squote }}
         - name: SERVER_PASSWORD
-          value: {{ .Values.env.serverPassword | quote }}
+          value: {{ .Values.env.serverPassword | squote }}
         - name: GAME_PORT
-          value: {{ .Values.env.gamePort | quote }}
+          value: {{ .Values.env.gamePort | squote }}
         - name: QUERY_PORT
-          value: {{ .Values.env.queryPort | quote }}
+          value: {{ .Values.env.queryPort | squote }}
         - name: SERVER_SLOTS
-          value: {{ .Values.env.serverSlots | quote }}
+          value: {{ .Values.env.serverSlots | squote }}
         ports:
         - name: game-port
           containerPort: {{ .Values.env.gamePort | int }}
