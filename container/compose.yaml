@@ -4,13 +4,8 @@ services:
     ports:
       - "15636:15636/udp"
       - "15637:15637/udp"
-    environment:
-      - SERVER_NAME='Enshrouded Containerized'
-      - SERVER_PASSWORD='PleaseChangeMe'
-      - GAME_PORT='15636'
-      - QUERY_PORT='15637'
-      - SERVER_SLOTS='16'
-      - SERVER_IP='0.0.0.0'
+    env_file:
+      - default.env
     volumes:
       - enshrouded-persistent-data:/home/steam/enshrouded/savegame
 
