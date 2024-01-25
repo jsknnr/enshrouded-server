@@ -39,6 +39,8 @@ I recommend having Docker or Podman manage the volume that gets mounted into the
 | SERVER_SLOTS | Number of slots for connections (Max 16) | 16 | False |
 | SERVER_IP | IP address for server to listen on | 0.0.0.0 | False |
 
+**Note:** SERVER_IP is ignored if using Helm because that isn't how Kubernetes works.
+
 ### Docker
 
 To run the container in Docker, run the following command:
