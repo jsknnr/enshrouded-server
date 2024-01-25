@@ -10,20 +10,7 @@ Run Enshrouded dedicated server in a container. Optionally includes helm chart f
 
 The processes within the container do **NOT** run as root. Everything runs as the user steam (gid:10000/uid:10000). If you exec into the container, you will drop into `/home/steam` as the steam user. Enshrouded will be installed to `/home/steam/enshrouded`. Any persistent volumes should be mounted to `/home/steam/enshrouded/savegame` and be owned by 10000:10000.
 
-## Connectivity
-
-If you are having issues connecting to the server once the container is deployed, I promise the issue is not with this image. You need to make sure that the ports 15636 and 15637 (or whichever ones you decide to use) are open on your router as well as the container host where this container image is running. You will also have to port-forward the game-port and query-port from your router to the private IP address of the container host where this image is running. After this has been done correctly and you are still experiencing issues, your internet service provider (ISP) may be blocking the ports and you should contact them to troubleshoot.
-
-For additional help, refer to this closed issue where some folks were able to debug their issues. It may be of help. <br>
-https://github.com/jsknnr/enshrouded-server/issues/16
-
-## Storage
-
-I recommend having Docker or Podman manage the volume that gets mounted into the container. However, if you absolutely must bind mount a directory into the container you need to make sure that on your container host the directory you are bind mounting is owned by 10000:10000 (`chown -R 10000:10000 /path/to/directory`). If the ownership of the directory is not correct the container will not start as the server will be unable to persist the savegame.
-
-## Image Version
-
-In all of the example below the image tag is set to latest to make it easier for folks. If you are worried about potential breaking changes, use a specific tag instead of latest so you can review release notes for anything that may break and you can plan for the change.
+In all of the examples below the image tag is set to `v2.0.1` which is the current latest release. I will update the examples each time I cut a new release. This is to avoid forcing potentially breaking changes if your tag is set to `latest` and you always pull. Please review my release notes for each version between your current and your target before upgrading.
 
 ### Ports
 
@@ -62,7 +49,7 @@ docker run \
   --env=SERVER_PASSWORD='ChangeThisPlease' \
   --env=GAME_PORT=15636 \
   --env=QUERY_PORT=15637 \
-  sknnr/enshrouded-dedicated-server:latest
+  sknnr/enshrouded-dedicated-server:v2.0.1
 ```
 
 ### Docker Compose
@@ -83,7 +70,7 @@ compose file:
 ```yaml
 services:
   enshrouded:
-    image: sknnr/enshrouded-dedicated-server:latest
+    image: sknnr/enshrouded-dedicated-server:v2.0.1
     ports:
       - "15636:15636/udp"
       - "15637:15637/udp"
@@ -119,9 +106,22 @@ podman run \
   --env=SERVER_PASSWORD='ChangeThisPlease' \
   --env=GAME_PORT=15636 \
   --env=QUERY_PORT=15637 \
-  docker.io/sknnr/enshrouded-dedicated-server:latest
+  docker.io/sknnr/enshrouded-dedicated-server:v2.0.1
 ```
 
 ### Kubernetes
 
 I've built a Helm chart and have included it in the `helm` directory within this repo. Modify the `values.yaml` file to your liking and install the chart into your cluster. Be sure to create and specify a namespace as I did not include a template for provisioning a namespace.
+
+## Troubleshooting
+
+### Connectivity
+
+If you are having issues connecting to the server once the container is deployed, I promise the issue is not with this image. You need to make sure that the ports 15636 and 15637 (or whichever ones you decide to use) are open on your router as well as the container host where this container image is running. You will also have to port-forward the game-port and query-port from your router to the private IP address of the container host where this image is running. After this has been done correctly and you are still experiencing issues, your internet service provider (ISP) may be blocking the ports and you should contact them to troubleshoot.
+
+For additional help, refer to this closed issue where some folks were able to debug their issues. It may be of help. <br>
+https://github.com/jsknnr/enshrouded-server/issues/16
+
+### Storage
+
+I recommend having Docker or Podman manage the volume that gets mounted into the container. However, if you absolutely must bind mount a directory into the container you need to make sure that on your container host the directory you are bind mounting is owned by 10000:10000 (`chown -R 10000:10000 /path/to/directory`). If the ownership of the directory is not correct the container will not start as the server will be unable to persist the savegame.
