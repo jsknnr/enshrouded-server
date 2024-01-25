@@ -6,15 +6,14 @@ ENV ENSHROUDED_CONFIG "${ENSHROUDED_PATH}/enshrouded_server.json"
 ENV WINEPREFIX "/home/steam/.enshrouded_prefix"
 ENV WINEARCH "win64"
 
-RUN groupadd -g 1000 steam \
-    && useradd -g 1000 -u 1000 -m steam \
+RUN groupadd -g 10000 steam \
+    && useradd -g 10000 -u 10000 -m steam \
     && dpkg --add-architecture i386 \
     && apt-get update \
     && apt-get install -y \
         ca-certificates \
         curl \
         wget \
-        vim \
         jq \
         lib32gcc-s1 \
         cabextract \
