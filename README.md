@@ -58,7 +58,7 @@ docker run \
 
 ### Docker Compose
 
-To use Docker Compose, either clone this repo or copy the `compose.yaml` and `default.env` files out of the `container` directory to your local machine. You can leave the `compose.yaml` file uncahnged. Edit the `default.env` file to change the environment variables to the values you desire and then save the changes. Once you have made your changes, from the same directory that contains both the env file and the compose file, simply run:
+To use Docker Compose, either clone this repo or copy the `compose.yaml` file out of the `container` directory to your local machine. Edit the `compose.yaml` file to change the environment variables to the values you desire and then save the changes. Once you have made your changes, from the same directory that contains the compose file, simply run:
 
 ```bash
 docker compose up -d -f compose.yaml
@@ -68,6 +68,29 @@ To bring the container down:
 
 ```bash
 docker compose down -f compose.yaml
+```
+
+compose file:
+```yaml
+services:
+  enshrouded:
+    image: sknnr/enshrouded-dedicated-server:latest
+    ports:
+      - "15636:15636/udp"
+      - "15637:15637/udp"
+    environment:
+      - SERVER_NAME='Enshrouded Containerized'
+      - SERVER_PASSWORD='PleaseChangeMe'
+      - GAME_PORT='15636'
+      - QUERY_PORT='15637'
+      - SERVER_SLOTS='16'
+      - SERVER_IP='0.0.0.0'
+    volumes:
+      - enshrouded-persistent-data:/home/steam/enshrouded/savegame
+
+volumes:
+  enshrouded-persistent-data:
+
 ```
 
 ### Podman
