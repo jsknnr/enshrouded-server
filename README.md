@@ -26,6 +26,7 @@ The processes within the container do **NOT** run as root. Everything runs as th
 | GAME_PORT | Port for server connections | 15636 | False |
 | QUERY_PORT | Port for steam query of server | 15637 | False |
 | SERVER_SLOTS | Number of slots for connections (Max 16) | 16 | False |
+| SERVER_IP | IP address for server to listen on | 0.0.0.0 | False |
 
 ### Docker
 

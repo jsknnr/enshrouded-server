@@ -26,9 +26,21 @@ if [ -z "$SERVER_SLOTS" ]; then
     echo "WARN: SERVER_SLOTS not set, using default: 16"
 fi
 
+if [ -z "$SERVER_IP" ]; then
+    SERVER_IP='0.0.0.0'
+    echo "WARN: SERVER_IP not set, using default: 0.0.0.0"
+fi
+
 # Install/Update Enshrouded
 echo "INFO: Updating Enshrouded Dedicated Server"
 /home/steam/steamcmd/steamcmd.sh +@sSteamCmdForcePlatformType windows +force_install_dir "$ENSHROUDED_PATH" +login anonymous +app_update 2278520 validate +quit
+
+# Check that steamcmd was successful
+if [ $? != 0 ]; then
+    echo "ERROR: steamcmd was unable to successfully initialize and update Enshrouded..."
+    echo "Steam may be experiencing network issues or this container host may be experiencing network issues"
+    exit 1
+fi
 
 # Copy example server config if not already present
 if ! [ -f "${ENSHROUDED_PATH}/enshrouded_server.json" ]; then
@@ -54,6 +66,7 @@ jq --arg p "$SERVER_PASSWORD" '.password = $p' ${ENSHROUDED_CONFIG} > "$tmpfile"
 jq --arg g "$GAME_PORT" '.gamePort = $g' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
 jq --arg q "$QUERY_PORT" '.queryPort = $q' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
 jq --arg s "$SERVER_SLOTS" '.slotCount = $s' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
+jq --arg i "$SERVER_IP" '.ip = $i' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
 
 # Wine talks too much and it's annoying
 export WINEDEBUG=-all
