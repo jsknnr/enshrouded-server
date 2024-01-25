@@ -54,7 +54,7 @@ docker run \
 
 ### Docker Compose
 
-To use Docker Compose, either clone this repo or copy the `compose.yaml` and the `default.env` file out of the `container` directory to your local machine. Edit the `default.yaml` file to change the environment variables to the values you desire and then save the changes. Once you have made your changes, from the same directory that contains the compose and the env files, simply run:
+To use Docker Compose, either clone this repo or copy the `compose.yaml` and the `default.env` file out of the `container` directory to your local machine. Edit the `default.env` file to change the environment variables to the values you desire and then save the changes. You should only need to edit the `compose.yaml` if you intend to change the game and query port. Once you have made your changes, from the same directory that contains the compose and the env files, simply run:
 
 ```bash
 docker-compose up -d
