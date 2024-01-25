@@ -8,7 +8,22 @@ Run Enshrouded dedicated server in a container. Optionally includes helm chart f
 **Disclaimer:** This is not an official image. No support, implied or otherwise is offered to any end user by the author or anyone else. Feel free to do what you please with the contents of this repo.
 ## Usage
 
-The processes within the container do **NOT** run as root. Everything runs as the user steam (gid:1000/uid:1000). If you exec into the container, you will drop into `/home/steam` as the steam user. Enshrouded will be installed to `/home/steam/enshrouded`. Any persistent volumes should be mounted to `/home/steam/enshrouded/savegame`.
+The processes within the container do **NOT** run as root. Everything runs as the user steam (gid:10000/uid:10000). If you exec into the container, you will drop into `/home/steam` as the steam user. Enshrouded will be installed to `/home/steam/enshrouded`. Any persistent volumes should be mounted to `/home/steam/enshrouded/savegame` and be owned by 10000:10000.
+
+## Connectivity
+
+If you are having issues connecting to the server once the container is deployed, I promise the issue is not with this image. You need to make sure that the ports 15636 and 15637 (or whichever ones you decide to use) are open on your router as well as the container host where this container image is running. You will also have to port-forward the game-port and query-port from your router to the private IP address of the container host where this image is running. After this has been done correctly and you are still experiencing issues, your internet service provider (ISP) may be blocking the ports and you should contact them to troubleshoot.
+
+For additional help, refer to this closed issue where some folks were able to debug their issues. It may be of help. <br>
+https://github.com/jsknnr/enshrouded-server/issues/16
+
+## Storage
+
+I recommend having Docker or Podman manage the volume that gets mounted into the container. However, if you absolutely must bind mount a directory into the container you need to make sure that on your container host the directory you are bind mounting is owned by 10000:10000 (`chown -R 10000:10000 /path/to/directory`). If the ownership of the directory is not correct the container will not start as the server will be unable to persist the savegame.
+
+## Image Version
+
+In all of the example below the image tag is set to latest to make it easier for folks. If you are worried about potential breaking changes, use a specific tag instead of latest so you can review release notes for anything that may break and you can plan for the change.
 
 ### Ports
 
@@ -26,6 +41,9 @@ The processes within the container do **NOT** run as root. Everything runs as th
 | GAME_PORT | Port for server connections | 15636 | False |
 | QUERY_PORT | Port for steam query of server | 15637 | False |
 | SERVER_SLOTS | Number of slots for connections (Max 16) | 16 | False |
+| SERVER_IP | IP address for server to listen on | 0.0.0.0 | False |
+
+**Note:** SERVER_IP is ignored if using Helm because that isn't how Kubernetes works.
 
 ### Docker
 
@@ -49,7 +67,7 @@ docker run \
 
 ### Docker Compose
 
-To use Docker Compose, either clone this repo or copy the `compose.yaml` and `default.env` files out of the `container` directory to your local machine. You can leave the `compose.yaml` file uncahnged. Edit the `default.env` file to change the environment variables to the values you desire and then save the changes. Once you have made your changes, from the same directory that contains both the env file and the compose file, simply run:
+To use Docker Compose, either clone this repo or copy the `compose.yaml` file out of the `container` directory to your local machine. Edit the `compose.yaml` file to change the environment variables to the values you desire and then save the changes. Once you have made your changes, from the same directory that contains the compose file, simply run:
 
 ```bash
 docker compose up -d -f compose.yaml
@@ -59,6 +77,29 @@ To bring the container down:
 
 ```bash
 docker compose down -f compose.yaml
+```
+
+compose file:
+```yaml
+services:
+  enshrouded:
+    image: sknnr/enshrouded-dedicated-server:latest
+    ports:
+      - "15636:15636/udp"
+      - "15637:15637/udp"
+    environment:
+      - SERVER_NAME='Enshrouded Containerized'
+      - SERVER_PASSWORD='PleaseChangeMe'
+      - GAME_PORT='15636'
+      - QUERY_PORT='15637'
+      - SERVER_SLOTS='16'
+      - SERVER_IP='0.0.0.0'
+    volumes:
+      - enshrouded-persistent-data:/home/steam/enshrouded/savegame
+
+volumes:
+  enshrouded-persistent-data:
+
 ```
 
 ### Podman
