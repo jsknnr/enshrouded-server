@@ -21,6 +21,10 @@ https://github.com/jsknnr/enshrouded-server/issues/16
 
 I recommend having Docker or Podman manage the volume that gets mounted into the container. However, if you absolutely must bind mount a directory into the container you need to make sure that on your container host the directory you are bind mounting is owned by 10000:10000 (`chown -R 10000:10000 /path/to/directory`). If the ownership of the directory is not correct the container will not start as the server will be unable to persist the savegame.
 
+## Image Version
+
+In all of the example below the image tag is set to latest to make it easier for folks. If you are worried about potential breaking changes, use a specific tag instead of latest so you can review release notes for anything that may break and you can plan for the change.
+
 ### Ports
 
 | Port | Protocol | Default |
