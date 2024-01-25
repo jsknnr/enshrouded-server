@@ -57,13 +57,13 @@ docker run \
 To use Docker Compose, either clone this repo or copy the `compose.yaml` and the `default.env` file out of the `container` directory to your local machine. Edit the `default.yaml` file to change the environment variables to the values you desire and then save the changes. Once you have made your changes, from the same directory that contains the compose and the env files, simply run:
 
 ```bash
-docker compose up -d
+docker-compose up -d
 ```
 
 To bring the container down:
 
 ```bash
-docker compose down
+docker-compose down
 ```
 
 compose.yaml file:
