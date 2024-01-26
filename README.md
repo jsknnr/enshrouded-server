@@ -10,7 +10,7 @@ Run Enshrouded dedicated server in a container. Optionally includes helm chart f
 
 The processes within the container do **NOT** run as root. Everything runs as the user steam (gid:10000/uid:10000 by default). If you exec into the container, you will drop into `/home/steam` as the steam user. Enshrouded will be installed to `/home/steam/enshrouded`. Any persistent volumes should be mounted to `/home/steam/enshrouded/savegame` and be owned by 10000:10000. 
 
-In all of the examples below the image tag is set to `v2.0.2` which is the current latest release. I will update the examples each time I cut a new release. This is to avoid forcing potentially breaking changes if your tag is set to `latest` and you always pull. Please review my release notes for each version between your current and your target before upgrading.
+In all of the examples below the image tag is set to `v2.0.4` which is the current latest release. I will update the examples each time I cut a new release. This is to avoid forcing potentially breaking changes if your tag is set to `latest` and you always pull. Please review my release notes for each version between your current and your target before upgrading.
 
 ### Ports
 
@@ -49,7 +49,7 @@ docker run \
   --env=SERVER_PASSWORD='ChangeThisPlease' \
   --env=GAME_PORT=15636 \
   --env=QUERY_PORT=15637 \
-  sknnr/enshrouded-dedicated-server:v2.0.2
+  sknnr/enshrouded-dedicated-server:v2.0.4
 ```
 
 ### Docker Compose
@@ -70,7 +70,7 @@ compose.yaml file:
 ```yaml
 services:
   enshrouded:
-    image: sknnr/enshrouded-dedicated-server:v2.0.2
+    image: sknnr/enshrouded-dedicated-server:v2.0.4
     ports:
       - "15636:15636/udp"
       - "15637:15637/udp"
@@ -109,7 +109,7 @@ podman run \
   --env=SERVER_PASSWORD='ChangeThisPlease' \
   --env=GAME_PORT=15636 \
   --env=QUERY_PORT=15637 \
-  docker.io/sknnr/enshrouded-dedicated-server:v2.0.2
+  docker.io/sknnr/enshrouded-dedicated-server:v2.0.4
 ```
 
 ### Kubernetes
