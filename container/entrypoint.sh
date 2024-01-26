@@ -62,12 +62,12 @@ rm "${ENSHROUDED_PATH}/savegame/test"
 # Modify server config to match our arguments
 echo "INFO: Updating Enshrouded Server configuration"
 tmpfile=$(mktemp)
-jq --jsonargs n "$SERVER_NAME" '.name = $n' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
-jq --jsonargs p "$SERVER_PASSWORD" '.password = $p' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
-jq --jsonargs g "$GAME_PORT" '.gamePort = $g' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
-jq --jsonargs q "$QUERY_PORT" '.queryPort = $q' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
-jq --jsonargs s "$SERVER_SLOTS" '.slotCount = $s' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
-jq --jsonargs i "$SERVER_IP" '.ip = $i' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
+jq --argjson n "$SERVER_NAME" '.name = $n' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
+jq --argjson p "$SERVER_PASSWORD" '.password = $p' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
+jq --argjson g "$GAME_PORT" '.gamePort = $g' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
+jq --argjson q "$QUERY_PORT" '.queryPort = $q' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
+jq --argjson s "$SERVER_SLOTS" '.slotCount = $s' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
+jq --argjson i "$SERVER_IP" '.ip = $i' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
 
 # Wine talks too much and it's annoying
 export WINEDEBUG=-all
