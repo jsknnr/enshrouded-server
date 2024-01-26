@@ -1,13 +1,16 @@
 FROM debian:12
 
+ARG CONTAINER_GID=10000
+ARG CONTAINER_UID=10000
+
 ENV DEBIAN_FRONTEND "noninteractive"
 ENV ENSHROUDED_PATH "/home/steam/enshrouded"
 ENV ENSHROUDED_CONFIG "${ENSHROUDED_PATH}/enshrouded_server.json"
 ENV WINEPREFIX "/home/steam/.enshrouded_prefix"
 ENV WINEARCH "win64"
 
-RUN groupadd -g 10000 steam \
-    && useradd -g 10000 -u 10000 -m steam \
+RUN groupadd -g $CONTAINER_GID steam \
+    && useradd -g $CONTAINER_GID -u $CONTAINER_UID -m steam \
     && dpkg --add-architecture i386 \
     && apt-get update \
     && apt-get install -y \

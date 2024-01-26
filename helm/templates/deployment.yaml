@@ -8,6 +8,8 @@ metadata:
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 spec:
+  strategy:
+    type: Recreate
   replicas: 1
   selector:
     matchLabels:
@@ -19,6 +21,8 @@ spec:
         app: "{{ .Chart.Name }}"
         release: "{{ .Release.Name }}"
     spec:
+      securityContext:
+        fsGroup: 10000
       containers:
       - name: "{{ .Chart.Name }}"
         image: "{{ .Values.image }}:{{ .Values.imageTag }}"

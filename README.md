@@ -8,9 +8,9 @@ Run Enshrouded dedicated server in a container. Optionally includes helm chart f
 **Disclaimer:** This is not an official image. No support, implied or otherwise is offered to any end user by the author or anyone else. Feel free to do what you please with the contents of this repo.
 ## Usage
 
-The processes within the container do **NOT** run as root. Everything runs as the user steam (gid:10000/uid:10000). If you exec into the container, you will drop into `/home/steam` as the steam user. Enshrouded will be installed to `/home/steam/enshrouded`. Any persistent volumes should be mounted to `/home/steam/enshrouded/savegame` and be owned by 10000:10000.
+The processes within the container do **NOT** run as root. Everything runs as the user steam (gid:10000/uid:10000 by default). If you exec into the container, you will drop into `/home/steam` as the steam user. Enshrouded will be installed to `/home/steam/enshrouded`. Any persistent volumes should be mounted to `/home/steam/enshrouded/savegame` and be owned by 10000:10000. 
 
-In all of the examples below the image tag is set to `v2.0.1` which is the current latest release. I will update the examples each time I cut a new release. This is to avoid forcing potentially breaking changes if your tag is set to `latest` and you always pull. Please review my release notes for each version between your current and your target before upgrading.
+In all of the examples below the image tag is set to `v2.0.2` which is the current latest release. I will update the examples each time I cut a new release. This is to avoid forcing potentially breaking changes if your tag is set to `latest` and you always pull. Please review my release notes for each version between your current and your target before upgrading.
 
 ### Ports
 
@@ -49,7 +49,7 @@ docker run \
   --env=SERVER_PASSWORD='ChangeThisPlease' \
   --env=GAME_PORT=15636 \
   --env=QUERY_PORT=15637 \
-  sknnr/enshrouded-dedicated-server:v2.0.1
+  sknnr/enshrouded-dedicated-server:v2.0.2
 ```
 
 ### Docker Compose
@@ -70,7 +70,7 @@ compose.yaml file:
 ```yaml
 services:
   enshrouded:
-    image: sknnr/enshrouded-dedicated-server:v2.0.1
+    image: sknnr/enshrouded-dedicated-server:v2.0.2
     ports:
       - "15636:15636/udp"
       - "15637:15637/udp"
@@ -109,7 +109,7 @@ podman run \
   --env=SERVER_PASSWORD='ChangeThisPlease' \
   --env=GAME_PORT=15636 \
   --env=QUERY_PORT=15637 \
-  docker.io/sknnr/enshrouded-dedicated-server:v2.0.1
+  docker.io/sknnr/enshrouded-dedicated-server:v2.0.2
 ```
 
 ### Kubernetes
@@ -127,4 +127,4 @@ https://github.com/jsknnr/enshrouded-server/issues/16
 
 ### Storage
 
-I recommend having Docker or Podman manage the volume that gets mounted into the container. However, if you absolutely must bind mount a directory into the container you need to make sure that on your container host the directory you are bind mounting is owned by 10000:10000 (`chown -R 10000:10000 /path/to/directory`). If the ownership of the directory is not correct the container will not start as the server will be unable to persist the savegame.
+I recommend having Docker or Podman manage the volume that gets mounted into the container. However, if you absolutely must bind mount a directory into the container you need to make sure that on your container host the directory you are bind mounting is owned by 10000:10000 by default (`chown -R 10000:10000 /path/to/directory`). If the ownership of the directory is not correct the container will not start as the server will be unable to persist the savegame.

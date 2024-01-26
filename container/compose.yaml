@@ -1,6 +1,6 @@
 services:
   enshrouded:
-    image: sknnr/enshrouded-dedicated-server:v2.0.1
+    image: sknnr/enshrouded-dedicated-server:v2.0.2
     ports:
       - "15636:15636/udp"
       - "15637:15637/udp"
