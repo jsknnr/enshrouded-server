@@ -38,7 +38,6 @@ echo "INFO: Updating Enshrouded Dedicated Server"
 # Check that steamcmd was successful
 if [ $? != 0 ]; then
     echo "ERROR: steamcmd was unable to successfully initialize and update Enshrouded..."
-    echo "Steam may be experiencing network issues or this container host may be experiencing network issues"
     exit 1
 fi
 
@@ -49,7 +48,7 @@ if ! [ -f "${ENSHROUDED_PATH}/enshrouded_server.json" ]; then
 fi
 
 # Check for proper save permissions
-if [[ $(stat -c "%U %G" "${ENSHROUDED_PATH}/savegame") != "steam steam" ]]; then
+if ! touch "${ENSHROUDED_PATH}/savegame/test"; then
     echo ""
     echo "ERROR: The ownership of /home/steam/enshrouded/savegame is not correct and the server will not be able to save..."
     echo "the directory that you are mounting into the container needs to be owned by 10000:10000"
@@ -58,15 +57,17 @@ if [[ $(stat -c "%U %G" "${ENSHROUDED_PATH}/savegame") != "steam steam" ]]; then
     exit 1
 fi
 
+rm "${ENSHROUDED_PATH}/savegame/test"
+
 # Modify server config to match our arguments
 echo "INFO: Updating Enshrouded Server configuration"
 tmpfile=$(mktemp)
-jq --arg n "$SERVER_NAME" '.name = $n' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
-jq --arg p "$SERVER_PASSWORD" '.password = $p' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
-jq --arg g "$GAME_PORT" '.gamePort = $g' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
-jq --arg q "$QUERY_PORT" '.queryPort = $q' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
-jq --arg s "$SERVER_SLOTS" '.slotCount = $s' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
-jq --arg i "$SERVER_IP" '.ip = $i' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
+jq --jsonargs n "$SERVER_NAME" '.name = $n' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
+jq --jsonargs p "$SERVER_PASSWORD" '.password = $p' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
+jq --jsonargs g "$GAME_PORT" '.gamePort = $g' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
+jq --jsonargs q "$QUERY_PORT" '.queryPort = $q' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
+jq --jsonargs s "$SERVER_SLOTS" '.slotCount = $s' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
+jq --jsonargs i "$SERVER_IP" '.ip = $i' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
 
 # Wine talks too much and it's annoying
 export WINEDEBUG=-all
