@@ -1,7 +1,5 @@
-name: Build and push Docker image
-on:
-  release:
-    types: [published]
+name: Build and push GE-Proton based image
+on: workflow_dispatch
 jobs:
   build-push:
     runs-on: ubuntu-latest
@@ -14,8 +12,8 @@ jobs:
         with:
           image: enshrouded-dedicated-server
           context: ./container
-          containerfiles: ./container/Containerfile
-          tags: latest ${{ github.event.release.tag_name }} # Use latest and the release tag
+          containerfiles: ./container/Containerfile-proton
+          tags: proton-latest
       - name: Push image to Docker Hub
         uses: redhat-actions/push-to-registry@v2
         with:

@@ -1,0 +1,61 @@
+FROM debian:12
+
+ARG CONTAINER_GID=10000
+ARG CONTAINER_UID=10000
+
+ENV DEBIAN_FRONTEND "noninteractive"
+ENV STEAM_APP_ID "2278520"
+ENV STEAM_PATH "/home/steam/Steam"
+ENV ENSHROUDED_PATH "/home/steam/enshrouded"
+ENV ENSHROUDED_CONFIG "${ENSHROUDED_PATH}/enshrouded_server.json"
+ENV GE_PROTON_VERSION "8-28"
+ENV GE_PROTON_URL "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton${GE_PROTON_VERSION}/GE-Proton${GE_PROTON_VERSION}.tar.gz"
+ENV STEAM_COMPAT_CLIENT_INSTALL_PATH "$STEAM_PATH"
+ENV STEAM_COMPAT_DATA_PATH "${STEAM_PATH}/steamapps/compatdata/${STEAM_APP_ID}"
+
+RUN groupadd -g $CONTAINER_GID steam \
+    && useradd -g $CONTAINER_GID -u $CONTAINER_UID -m steam \
+    && dpkg --add-architecture i386 \
+    && apt-get update \
+    && apt-get install -y \
+        ca-certificates \
+        winbind \
+        dbus \
+        cabextract \
+        libfreetype6 \
+        curl \
+        wget \
+        jq \
+        locales \
+        lib32gcc-s1 \
+    && echo 'LANG="en_US.UTF-8"' > /etc/default/locale \
+    && echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
+    && locale-gen \
+    && rm -f /etc/machine-id \
+    && dbus-uuidgen --ensure=/etc/machine-id \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean \
+    && apt-get autoremove -y 
+
+USER steam
+
+RUN mkdir "$ENSHROUDED_PATH" \
+    && mkdir -p "${ENSHROUDED_PATH}/savegame" \
+    && mkdir -p "${STEAM_PATH}/steamcmd" \
+    && mkdir -p "${STEAM_PATH}/compatibilitytools.d" \
+    && mkdir -p "${STEAM_PATH}/steamapps/compatdata/${STEAM_APP_ID}" \
+    && mkdir -p /home/steam/.steam/sdk64 \
+    && mkdir -p /home/steam/.steam/sdk32 \
+    && curl -sqL https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz | tar zxvf - -C ${STEAM_PATH}/steamcmd \
+    && chmod +x ${STEAM_PATH}/steamcmd/steamcmd.sh \
+    && wget "$GE_PROTON_URL" -O "/home/steam/GE-Proton${GE_PROTON_VERSION}.tgz" \
+    && tar -x -C "${STEAM_PATH}/compatibilitytools.d/" -f "/home/steam/GE-Proton${GE_PROTON_VERSION}.tgz" \
+    # && cp -r "${STEAM_PATH}/compatibilitytools.d/GE-Proton${GE_PROTON_VERSION}/files/share/default_pfx" "${STEAM_PATH}/steamapps/compatdata/${STEAM_APP_ID}" \
+    && rm "/home/steam/GE-Proton${GE_PROTON_VERSION}.tgz"
+    
+COPY entrypoint-proton.sh /home/steam/entrypoint.sh
+COPY enshrouded_server_example.json /home/steam/enshrouded_server_example.json
+
+WORKDIR /home/steam
+
+CMD ["/home/steam/entrypoint.sh"]
