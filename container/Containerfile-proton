@@ -12,6 +12,7 @@ ENV GE_PROTON_VERSION "8-28"
 ENV GE_PROTON_URL "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton${GE_PROTON_VERSION}/GE-Proton${GE_PROTON_VERSION}.tar.gz"
 ENV STEAM_COMPAT_CLIENT_INSTALL_PATH "$STEAM_PATH"
 ENV STEAM_COMPAT_DATA_PATH "${STEAM_PATH}/steamapps/compatdata/${STEAM_APP_ID}"
+ENV PROTONPREFIX "${STEAM_PATH}/steamapps/compatdata/${STEAM_APP_ID}"
 
 RUN groupadd -g $CONTAINER_GID steam \
     && useradd -g $CONTAINER_GID -u $CONTAINER_UID -m steam \
@@ -29,6 +30,7 @@ RUN groupadd -g $CONTAINER_GID steam \
         jq \
         locales \
         lib32gcc-s1 \
+        vim \
     && sed -i 's#^Components: .*#Components: main non-free contrib#g' /etc/apt/sources.list.d/debian.sources \
     && echo steam steam/question select "I AGREE" | debconf-set-selections \
     && echo steam steam/license note '' | debconf-set-selections \

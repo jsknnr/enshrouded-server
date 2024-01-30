@@ -70,7 +70,7 @@ jq --arg s "$SERVER_SLOTS" '.slotCount = ($s | tonumber)' ${ENSHROUDED_CONFIG} >
 jq --arg i "$SERVER_IP" '.ip = $i' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
 
 # Wine talks too much and it's annoying
-export WINEDEBUG=-all
+#export WINEDEBUG=-all
 
 # Need to copy the sharedobject or Enshrouded can't use the steam sdk
 ln -s ${STEAM_PATH}/steamcmd/linux64/steamclient.so /home/steam/.steam/sdk64/steamclient.so
@@ -90,6 +90,8 @@ fi
 # Link logfile to stdout of pid 1 so we can see logs
 ln -sf /proc/1/fd/1 "${ENSHROUDED_PATH}/logs/enshrouded_server.log"
 
+export WINEARCH="wine64"
+export WINEPREFIX="${STEAM_PATH}/steamapps/compatdata/${STEAM_APP_ID}/pfx"
 # Launch Enshrouded
 echo "INFO: Starting Enshrouded Dedicated Server"
 ${STEAM_PATH}/compatibilitytools.d/GE-Proton${GE_PROTON_VERSION}/proton runinprefix ${ENSHROUDED_PATH}/enshrouded_server.exe
