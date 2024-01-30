@@ -33,7 +33,7 @@ fi
 
 # Install/Update Enshrouded
 echo "INFO: Updating Enshrouded Dedicated Server"
-${STEAM_PATH}/steamcmd/steamcmd.sh +@sSteamCmdForcePlatformType windows +force_install_dir "$ENSHROUDED_PATH" +login anonymous +app_update ${STEAM_APP_ID} validate +quit
+steamcmd +@sSteamCmdForcePlatformType windows +force_install_dir "$ENSHROUDED_PATH" +login anonymous +app_update ${STEAM_APP_ID} validate +quit
 
 # Check that steamcmd was successful
 if [ $? != 0 ]; then
@@ -73,11 +73,7 @@ jq --arg i "$SERVER_IP" '.ip = $i' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmp
 export WINEDEBUG=-all
 
 # Need to copy the sharedobject or Enshrouded can't use the steam sdk
-ln -s ${STEAM_PATH}/steamcmd/linux64 /home/steam/.steam/sdk64
-ln -s ${STEAM_PATH}/steamcmd/linux32 /home/steam/.steam/sdk32
 ln -s ${STEAM_PATH}/steamcmd/linux64/steamclient.so /home/steam/.steam/sdk64/steamclient.so
-ln -s ${STEAM_PATH}/steamcmd/linux32/steamclient.so /home/steam/.steam/sdk32/steamclient.so
-ln -s /home/steam/.steam/sdk32/steamclient.so /home/steam/.steam/sdk32/steamservice.so
 ln -s /home/steam/.steam/sdk64/steamclient.so /home/steam/.steam/sdk64/steamservice.so
 
 
@@ -96,16 +92,4 @@ ln -sf /proc/1/fd/1 "${ENSHROUDED_PATH}/logs/enshrouded_server.log"
 
 # Launch Enshrouded
 echo "INFO: Starting Enshrouded Dedicated Server"
-${STEAM_PATH}/compatibilitytools.d/GE-Proton${GE_PROTON_VERSION}/proton run ${ENSHROUDED_PATH}/enshrouded_server.exe
-
-podman run -d --name enshrouded \
-  --hostname enshrouded \
-  --restart=unless-stopped \
-  -p 15636-15637:15636-15637/udp \
-  -v ./game:/opt/enshrouded \
-  -e SERVER_NAME="Enshrouded Server" \
-  -e SERVER_PASSWORD="secret" \
-  -e UPDATE_CRON="*/30 * * * *" \
-  -e PUID=4711 \
-  -e PGID=4711 \
-  docker.io/mornedhels/enshrouded-server:latest
+${STEAM_PATH}/compatibilitytools.d/GE-Proton${GE_PROTON_VERSION}/proton runinprefix ${ENSHROUDED_PATH}/enshrouded_server.exe

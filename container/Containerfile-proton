@@ -18,16 +18,24 @@ RUN groupadd -g $CONTAINER_GID steam \
     && dpkg --add-architecture i386 \
     && apt-get update \
     && apt-get install -y \
+        apt-utils \
+        software-properties-common \
         ca-certificates \
         winbind \
         dbus \
-        cabextract \
         libfreetype6 \
         curl \
         wget \
         jq \
         locales \
         lib32gcc-s1 \
+    && sed -i 's#^Components: .*#Components: main non-free contrib#g' /etc/apt/sources.list.d/debian.sources \
+    && echo steam steam/question select "I AGREE" | debconf-set-selections \
+    && echo steam steam/license note '' | debconf-set-selections \
+    && apt-get update \
+    && apt-get install -y \
+        steamcmd \
+    && ln -s /usr/games/steamcmd /usr/bin/steamcmd \
     && echo 'LANG="en_US.UTF-8"' > /etc/default/locale \
     && echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
     && locale-gen \
@@ -41,13 +49,9 @@ USER steam
 
 RUN mkdir "$ENSHROUDED_PATH" \
     && mkdir -p "${ENSHROUDED_PATH}/savegame" \
-    && mkdir -p "${STEAM_PATH}/steamcmd" \
     && mkdir -p "${STEAM_PATH}/compatibilitytools.d" \
     && mkdir -p "${STEAM_PATH}/steamapps/compatdata/${STEAM_APP_ID}" \
     && mkdir -p /home/steam/.steam/sdk64 \
-    && mkdir -p /home/steam/.steam/sdk32 \
-    && curl -sqL https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz | tar zxvf - -C ${STEAM_PATH}/steamcmd \
-    && chmod +x ${STEAM_PATH}/steamcmd/steamcmd.sh \
     && wget "$GE_PROTON_URL" -O "/home/steam/GE-Proton${GE_PROTON_VERSION}.tgz" \
     && tar -x -C "${STEAM_PATH}/compatibilitytools.d/" -f "/home/steam/GE-Proton${GE_PROTON_VERSION}.tgz" \
     # && cp -r "${STEAM_PATH}/compatibilitytools.d/GE-Proton${GE_PROTON_VERSION}/files/share/default_pfx" "${STEAM_PATH}/steamapps/compatdata/${STEAM_APP_ID}" \
