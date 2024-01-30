@@ -11,8 +11,8 @@ jobs:
         uses: redhat-actions/buildah-build@v2
         with:
           image: enshrouded-dedicated-server
-          context: ./container
-          containerfiles: ./container/Containerfile-proton
+          context: ./container/proton
+          containerfiles: ./container/proton/Containerfile
           tags: proton-latest
       - name: Push image to Docker Hub
         uses: redhat-actions/push-to-registry@v2

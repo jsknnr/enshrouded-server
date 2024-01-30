@@ -13,8 +13,8 @@ jobs:
         uses: redhat-actions/buildah-build@v2
         with:
           image: enshrouded-dedicated-server
-          context: ./container
-          containerfiles: ./container/Containerfile
+          context: ./container/wine
+          containerfiles: ./container/wine/Containerfile
           tags: latest ${{ github.event.release.tag_name }} # Use latest and the release tag
       - name: Push image to Docker Hub
         uses: redhat-actions/push-to-registry@v2
