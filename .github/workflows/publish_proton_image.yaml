@@ -12,8 +12,8 @@ jobs:
         with:
           image: enshrouded-dedicated-server
           context: ./container/proton
-          containerfiles: ./container/proton/Containerfile
-          tags: proton-latest
+          containerfiles: ./container/proton/Dockerfile
+          tags: proton-latest 
       - name: Push image to Docker Hub
         uses: redhat-actions/push-to-registry@v2
         with:
