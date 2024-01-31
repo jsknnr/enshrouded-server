@@ -28,7 +28,11 @@ RUN groupadd -g $CONTAINER_GID steam \
     && apt-get update \
     && apt-get install -y --install-recommends winehq-stable \
     && wget -O /usr/local/bin/winetricks https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks \
-    && chmod +x /usr/local/bin/winetricks
+    && chmod +x /usr/local/bin/winetricks \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean \
+    && apt-get autoremove -y 
+
 
 USER steam
 

@@ -1,4 +1,7 @@
-# Image values
+# I would prefer Podman but for some reason the Proton container just doesn't run right in Podman.
+# Not sure if this is a me problem or a Podman problem. So Proton builds and runs with Docker instead.
+#
+# Image Values
 REGISTRY := localhost
 IMAGE := enshrouded-test
 PROTON_IMAGE := enshrouded-proton-test
