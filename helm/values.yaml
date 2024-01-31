@@ -1,5 +1,5 @@
 image: sknnr/enshrouded-dedicated-server
-imageTag: v2.0.4
+imageTag: v2.0.5
 # serviceType should be LoadBalancer or NodePort
 serviceType: LoadBalancer
 resources:
