@@ -1,4 +1,4 @@
-FROM debian:12
+FROM debian:12-slim
 
 ARG CONTAINER_GID=10000
 ARG CONTAINER_UID=10000
@@ -13,7 +13,7 @@ RUN groupadd -g $CONTAINER_GID steam \
     && useradd -g $CONTAINER_GID -u $CONTAINER_UID -m steam \
     && dpkg --add-architecture i386 \
     && apt-get update \
-    && apt-get install -y \
+    && apt-get install --no-install-recommends -y \
         ca-certificates \
         curl \
         wget \
