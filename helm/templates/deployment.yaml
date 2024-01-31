@@ -15,6 +15,8 @@ spec:
     matchLabels:
       app: "{{ .Chart.Name }}"
       release: "{{ .Release.Name }}"
+  securityContext:
+    runAsNonRoot: true
   template:
     metadata:
       labels:
@@ -22,6 +24,8 @@ spec:
         release: "{{ .Release.Name }}"
     spec:
       securityContext:
+        runAsUser: 10000
+        runAsGroup: 10000
         fsGroup: 10000
       containers:
       - name: "{{ .Chart.Name }}"
@@ -50,6 +54,9 @@ spec:
         volumeMounts:
         - name: data
           mountPath: /home/steam/enshrouded/savegame
+        securityContext:
+          allowPrivilegeEscalation: false
+          
       volumes:
       - name: data
         persistentVolumeClaim:
