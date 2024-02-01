@@ -106,7 +106,7 @@ while [ $timeout -lt 11 ]; do
         exit 1
     fi
     sleep 6
-    timeout+=1
+    ((timeout++))
     echo "$(timestamp) INFO: Waiting for enshrouded_server.exe to be running"
 done
 
