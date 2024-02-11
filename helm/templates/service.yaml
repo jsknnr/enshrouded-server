@@ -8,27 +8,39 @@ metadata:
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 spec:
-  type: {{ .Values.serviceType }}
+  type: {{ .Values.service.type }}
+  {{- with .Values.service.externalIPs }}
+  externalIPs: {{ . | toYaml | nindent 4 }}
+  {{- end }}
   ports:
-  {{- if eq "LoadBalancer" .Values.serviceType }}
+  {{- if eq "LoadBalancer" .Values.service.type }}
   - name: game-port
-    port: {{ .Values.env.gamePort | int }}
+    port: {{ .Values.config.gamePort | int }}
     targetPort: game-port
     protocol: UDP
   - name: query-port
-    port: {{ .Values.env.queryPort | int }}
+    port: {{ .Values.config.queryPort | int }}
     targetPort: query-port
+    protocol: UDP
+  {{- else if eq "NodePort" .Values.service.type }}
+  - name: game-port
+    port: {{ .Values.config.gamePort | int }}
+    targetPort: game-port
+    nodePort: {{ .Values.config.gamePort | int }}
+    protocol: UDP
+  - name: query-port
+    port: {{ .Values.config.queryPort | int }}
+    targetPort: query-port
+    nodePort: {{ .Values.config.queryPort | int }}
     protocol: UDP
   {{- else }}
   - name: game-port
-    port: {{ .Values.env.gamePort | int }}
+    port: {{ .Values.config.gamePort | int }}
     targetPort: game-port
-    nodePort: {{ .Values.env.gamePort | int }}
     protocol: UDP
   - name: query-port
-    port: {{ .Values.env.queryPort | int }}
+    port: {{ .Values.config.queryPort | int }}
     targetPort: query-port
-    nodePort: {{ .Values.env.queryPort | int }}
     protocol: UDP
   {{- end }}
   selector:

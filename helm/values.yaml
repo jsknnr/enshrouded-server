@@ -1,18 +1,25 @@
-image: sknnr/enshrouded-dedicated-server
-imageTag: v2.0.5
-# serviceType should be LoadBalancer or NodePort
-serviceType: LoadBalancer
+image:
+  repository: sknnr/enshrouded-dedicated-server
+  tag: v2.0.5
+
+service:
+  type: LoadBalancer
+  externalIPs: []
+
 resources:
   requests:
     memory: 12G
     cpu: 4.0
+
 volumes:
   dataPVC:
     size: 50Gi
   storageClassName: ""
-env:
-  serverName: 'Enshrouded Server'
-  serverPassword: 'picksomethingawesome'
+
+config:
+  serverName: "Enshrouded Server"
+  serverPassword: ""
+  serverPasswordExistingSecretName: ""
   gamePort: 15636
   queryPort: 15637
   serverSlots: 16

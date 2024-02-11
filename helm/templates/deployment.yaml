@@ -15,8 +15,6 @@ spec:
     matchLabels:
       app: "{{ .Chart.Name }}"
       release: "{{ .Release.Name }}"
-  securityContext:
-    runAsNonRoot: true
   template:
     metadata:
       labels:
@@ -29,27 +27,30 @@ spec:
         fsGroup: 10000
       containers:
       - name: "{{ .Chart.Name }}"
-        image: "{{ .Values.image }}:{{ .Values.imageTag }}"
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: Always
         resources:
 {{ toYaml .Values.resources | indent 10 }}
         env:
         - name: SERVER_NAME
-          value: {{ .Values.env.serverName | squote }}
+          value: {{ .Values.config.serverName | squote }}
         - name: SERVER_PASSWORD
-          value: {{ .Values.env.serverPassword | squote }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "enshrouded.passwordSecretName" . }}
+              key: serverPassword
         - name: GAME_PORT
-          value: {{ .Values.env.gamePort | squote }}
+          value: {{ .Values.config.gamePort | squote }}
         - name: QUERY_PORT
-          value: {{ .Values.env.queryPort | squote }}
+          value: {{ .Values.config.queryPort | squote }}
         - name: SERVER_SLOTS
-          value: {{ .Values.env.serverSlots | squote }}
+          value: {{ .Values.config.serverSlots | squote }}
         ports:
         - name: game-port
-          containerPort: {{ .Values.env.gamePort | int }}
+          containerPort: {{ .Values.config.gamePort | int }}
           protocol: UDP
         - name: query-port
-          containerPort: {{ .Values.env.queryPort | int }}
+          containerPort: {{ .Values.config.queryPort | int }}
           protocol: UDP
         volumeMounts:
         - name: data
