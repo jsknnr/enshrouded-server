@@ -115,6 +115,34 @@ podman run \
   docker.io/sknnr/enshrouded-dedicated-server:v2.0.5
 ```
 
+### Quadlet
+To run the container with Podman's new quadlet subsystem, make a file under (when running as root) /etc/containers/systemd/enshrouded.container containing:
+```text
+[Unit]
+Description=Enshrouded Game Server
+
+[Container]
+Image=docker.io/sknnr/enshrouded-dedicated-server:v2.0.5
+Volume=enshrouded-persistent-data:/home/steam/enshrouded/savegame
+PublishPort=15636-15637:15636-15637/udp
+ContainerName=enshrouded-server
+Environment=SERVER_NAME="Enshrouded Containerized Server"
+Environment=SERVER_PASSWORD="ChangeThisPlease"
+Environment=GAME_PORT=15636
+Environment=QUERY_PORT=15637
+Environment=SERVER_SLOTS=16
+
+[Service]
+# Restart service when sleep finishes
+Restart=always
+# Extend Timeout to allow time to pull the image
+TimeoutStartSec=900
+
+[Install]
+# Start by default on boot
+WantedBy=multi-user.target default.target
+```
+
 ### Kubernetes
 
 I've built a Helm chart and have included it in the `helm` directory within this repo. Modify the `values.yaml` file to your liking and install the chart into your cluster. Be sure to create and specify a namespace as I did not include a template for provisioning a namespace.
