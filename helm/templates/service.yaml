@@ -7,29 +7,28 @@ metadata:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
-spec:
-  type: {{ .Values.serviceType }}
-  ports:
-  {{- if eq "LoadBalancer" .Values.serviceType }}
-  - name: game-port
-    port: {{ .Values.env.gamePort | int }}
-    targetPort: game-port
-    protocol: UDP
-  - name: query-port
-    port: {{ .Values.env.queryPort | int }}
-    targetPort: query-port
-    protocol: UDP
-  {{- else }}
-  - name: game-port
-    port: {{ .Values.env.gamePort | int }}
-    targetPort: game-port
-    nodePort: {{ .Values.env.gamePort | int }}
-    protocol: UDP
-  - name: query-port
-    port: {{ .Values.env.queryPort | int }}
-    targetPort: query-port
-    nodePort: {{ .Values.env.queryPort | int }}
-    protocol: UDP
+  {{- with .Values.service.annotations }}
+  annotations: {{- toYaml . | nindent 4 }}
   {{- end }}
+spec:
+  type: {{ .Values.service.type }}
+  {{- with .Values.service.externalIPs }}
+  externalIPs: {{ . | toYaml | nindent 4 }}
+  {{- end }}
+  ports:
+  - name: game-port
+    port: {{ .Values.config.gamePort | int }}
+    targetPort: game-port
+    protocol: UDP
+    {{- if eq .Values.service.type "NodePort" }}
+    nodePort: {{ .Values.config.gamePort | int }}
+    {{- end }}
+  - name: query-port
+    port: {{ .Values.config.queryPort | int }}
+    targetPort: query-port
+    protocol: UDP
+    {{- if eq .Values.service.type "NodePort" }}
+    nodePort: {{ .Values.config.queryPort| int }}
+    {{- end }}
   selector:
     app: "{{ .Chart.Name }}"
