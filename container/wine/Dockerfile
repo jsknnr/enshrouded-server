@@ -14,6 +14,7 @@ RUN groupadd -g $CONTAINER_GID steam \
     && dpkg --add-architecture i386 \
     && apt-get update \
     && apt-get install --no-install-recommends -y \
+        procps \
         ca-certificates \
         curl \
         wget \
