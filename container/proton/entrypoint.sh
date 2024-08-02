@@ -11,6 +11,9 @@ shutdown () {
     kill -2 $enshrouded_pid
 }
 
+# Set our trap
+trap 'shutdown' TERM
+
 # Validate arguments
 if [ -z "$SERVER_NAME" ]; then
     SERVER_NAME='Enshrouded Containerized'
@@ -118,7 +121,7 @@ while [ $timeout -lt 11 ]; do
 done
 
 # Hold us open until we recieve a SIGTERM
-wait $enshrouded_pid
+wait
 
 # Handle post SIGTERM from here
 # Hold us open until WSServer-Linux pid closes, indicating full shutdown, then go home
