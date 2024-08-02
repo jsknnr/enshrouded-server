@@ -10,13 +10,10 @@ Run Enshrouded dedicated server in a container. Optionally includes helm chart f
 
 The processes within the container do **NOT** run as root. Everything runs as the user steam (gid:10000/uid:10000 by default). If you exec into the container, you will drop into `/home/steam` as the steam user. Enshrouded will be installed to `/home/steam/enshrouded`. Any persistent volumes should be mounted to `/home/steam/enshrouded/savegame` and be owned by 10000:10000. 
 
-In all of the examples below the image tag is set to `v2.0.5` which is the current latest release. I will update the examples each time I cut a new release. This is to avoid forcing potentially breaking changes if your tag is set to `latest` and you always pull. Please review my release notes for each version between your current and your target before upgrading.
 
 ### Proton and Wine based images
 
-latest and semantic versioned (vN.N.N) image tags are Wine based images. If you would like to try my Proton (GE-Proton) based image, use the proton-latest tag.
-
-If testing shows that the Proton image is substantially more performant than the Wine image, I may retire the Wine image.
+The `latest` tag is now based on the Proton build instead of Wine. This should be seamless. Outside of `latest`, there is `wine-$realease_version` and `proton-$release_version` with `$release_version` being the version of the release from GitHub.
 
 ### Ports
 
@@ -55,7 +52,7 @@ docker run \
   --env=SERVER_PASSWORD='ChangeThisPlease' \
   --env=GAME_PORT=15636 \
   --env=QUERY_PORT=15637 \
-  sknnr/enshrouded-dedicated-server:v2.0.5
+  sknnr/enshrouded-dedicated-server:latest
 ```
 
 ### Docker Compose
@@ -76,7 +73,7 @@ compose.yaml file:
 ```yaml
 services:
   enshrouded:
-    image: sknnr/enshrouded-dedicated-server:v2.0.5
+    image: sknnr/enshrouded-dedicated-server:latest
     ports:
       - "15636:15636/udp"
       - "15637:15637/udp"
@@ -112,7 +109,7 @@ podman run \
   --env=SERVER_PASSWORD='ChangeThisPlease' \
   --env=GAME_PORT=15636 \
   --env=QUERY_PORT=15637 \
-  docker.io/sknnr/enshrouded-dedicated-server:v2.0.5
+  docker.io/sknnr/enshrouded-dedicated-server:latest
 ```
 
 ### Quadlet
@@ -122,7 +119,7 @@ To run the container with Podman's new quadlet subsystem, make a file under (whe
 Description=Enshrouded Game Server
 
 [Container]
-Image=docker.io/sknnr/enshrouded-dedicated-server:v2.0.5
+Image=docker.io/sknnr/enshrouded-dedicated-server:latest
 Volume=enshrouded-persistent-data:/home/steam/enshrouded/savegame
 PublishPort=15636-15637:15636-15637/udp
 ContainerName=enshrouded-server

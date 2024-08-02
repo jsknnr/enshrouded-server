@@ -5,6 +5,12 @@ timestamp () {
   date +"%Y-%m-%d %H:%M:%S,%3N"
 }
 
+shutdown () {
+    echo ""
+    echo "$(timestamp) INFO: Recieved SIGTERM, shutting down gracefully"
+    kill -2 $enshrouded_pid
+}
+
 # Validate arguments
 if [ -z "$SERVER_NAME" ]; then
     SERVER_NAME='Enshrouded Containerized'
@@ -12,8 +18,7 @@ if [ -z "$SERVER_NAME" ]; then
 fi
 
 if [ -z "$SERVER_PASSWORD" ]; then
-    echo "$(timestamp) ERROR: SERVER_PASSWORD not set, exitting"
-    exit 1
+    echo "$(timestamp) WARN: SERVER_PASSWORD not set, server will be open to the public"
 fi
 
 if [ -z "$GAME_PORT" ]; then
@@ -68,7 +73,9 @@ rm "${ENSHROUDED_PATH}/savegame/test"
 echo "$(timestamp) INFO: Updating Enshrouded Server configuration"
 tmpfile=$(mktemp)
 jq --arg n "$SERVER_NAME" '.name = $n' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
-jq --arg p "$SERVER_PASSWORD" '.password = $p' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
+if [ -z "$SERVER_PASSWORD" ]; then
+    jq --arg p "$SERVER_PASSWORD" '.password = $p' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
+fi
 jq --arg g "$GAME_PORT" '.gamePort = ($g | tonumber)' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
 jq --arg q "$QUERY_PORT" '.queryPort = ($q | tonumber)' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
 jq --arg s "$SERVER_SLOTS" '.slotCount = ($s | tonumber)' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
@@ -110,9 +117,13 @@ while [ $timeout -lt 11 ]; do
     echo "$(timestamp) INFO: Waiting for enshrouded_server.exe to be running"
 done
 
-# I don't love this but I can't use `wait` because it's not a child of our shell
+# Hold us open until we recieve a SIGTERM
+wait $enshrouded_pid
+
+# Handle post SIGTERM from here
+# Hold us open until WSServer-Linux pid closes, indicating full shutdown, then go home
 tail --pid=$enshrouded_pid -f /dev/null
 
-# If we lose our pid, exit container
-echo "$(timestamp) ERROR: He's dead, Jim"
-exit 1
+# o7
+echo "$(timestamp) INFO: Shutdown complete."
+exit 0

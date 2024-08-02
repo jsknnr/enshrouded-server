@@ -5,6 +5,12 @@ timestamp () {
   date +"%Y-%m-%d %H:%M:%S,%3N"
 }
 
+shutdown () {
+    echo ""
+    echo "$(timestamp) INFO: Recieved SIGTERM, shutting down gracefully"
+    kill -2 $enshrouded_pid
+}
+
 # Validate arguments
 if [ -z "$SERVER_NAME" ]; then
     SERVER_NAME='Enshrouded Containerized'
@@ -79,4 +85,30 @@ export WINEDEBUG=-all
 
 # Launch Enshrouded
 echo "$(timestamp) INFO: Starting Enshrouded Dedicated Server"
-wine ${ENSHROUDED_PATH}/enshrouded_server.exe
+wine ${ENSHROUDED_PATH}/enshrouded_server.exe &
+
+# Find pid for enshrouded_server.exe
+timeout=0
+while [ $timeout -lt 11 ]; do
+    if ps -e | grep "enshrouded_serv"; then
+        enshrouded_pid=$(ps -e | grep "enshrouded_serv" | awk '{print $1}')
+        break
+    elif [ $timeout -eq 10 ]; then
+        echo "$(timestamp) ERROR: Timed out waiting for enshrouded_server.exe to be running"
+        exit 1
+    fi
+    sleep 6
+    ((timeout++))
+    echo "$(timestamp) INFO: Waiting for enshrouded_server.exe to be running"
+done
+
+# Hold us open until we recieve a SIGTERM
+wait $enshrouded_pid
+
+# Handle post SIGTERM from here
+# Hold us open until WSServer-Linux pid closes, indicating full shutdown, then go home
+tail --pid=$enshrouded_pid -f /dev/null
+
+# o7
+echo "$(timestamp) INFO: Shutdown complete."
+exit 0
