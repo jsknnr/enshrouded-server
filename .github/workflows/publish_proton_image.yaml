@@ -19,7 +19,7 @@ jobs:
           context: ./container/proton
           file: Dockerfile
           push: true
-          tags: 
-            - ${{ secrets.DOCKERHUB_USERNAME }}/enshrouded-dedicated-server:latest
-            - ${{ secrets.DOCKERHUB_USERNAME }}/enshrouded-dedicated-server:proton-latest
-            - ${{ secrets.DOCKERHUB_USERNAME }}/enshrouded-dedicated-server:proton-${{ github.event.release.tag_name }}
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/enshrouded-dedicated-server:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/enshrouded-dedicated-server:proton-latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/enshrouded-dedicated-server:proton-${{ github.event.release.tag_name }}
