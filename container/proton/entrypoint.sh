@@ -85,7 +85,7 @@ jq --arg s "$SERVER_SLOTS" '.slotCount = ($s | tonumber)' ${ENSHROUDED_CONFIG} >
 jq --arg i "$SERVER_IP" '.ip = $i' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
 
 # Wine talks too much and it's annoying
-#export WINEDEBUG=-all
+export WINEDEBUG=-all
 
 # Check that log directory exists, if not create
 if ! [ -d "${ENSHROUDED_PATH}/logs" ]; then
