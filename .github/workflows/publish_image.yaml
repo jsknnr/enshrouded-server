@@ -16,7 +16,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
-          context: ./container/wine
+          context: "{{defaultContext}}:/container/wine"
           file: Dockerfile
           push: true
           tags: |
