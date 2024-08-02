@@ -27,7 +27,7 @@ The `latest` tag is now based on the Proton build instead of Wine. This should b
 | Name | Description | Default | Required |
 | ---- | ----------- | ------- | -------- |
 | SERVER_NAME | Name for the Server | Enshrouded Containerized | False |
-| SERVER_PASSWORD | Password for the server | None | True |
+| SERVER_PASSWORD | Password for the server | None | False |
 | GAME_PORT | Port for server connections | 15636 | False |
 | QUERY_PORT | Port for steam query of server | 15637 | False |
 | SERVER_SLOTS | Number of slots for connections (Max 16) | 16 | False |
