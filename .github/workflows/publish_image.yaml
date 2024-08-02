@@ -19,6 +19,6 @@ jobs:
           context: ./container/wine
           file: Dockerfile
           push: true
-          tags: 
-            - ${{ secrets.DOCKERHUB_USERNAME }}/enshrouded-dedicated-server:wine-latest
-            - ${{ secrets.DOCKERHUB_USERNAME }}/enshrouded-dedicated-server:wine-${{ github.event.release.tag_name }}
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/enshrouded-dedicated-server:wine-latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/enshrouded-dedicated-server:wine-${{ github.event.release.tag_name }}
