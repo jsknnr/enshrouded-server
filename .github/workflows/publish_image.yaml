@@ -1,7 +1,7 @@
 name: Build and push Wine based image
 on:
-  release:
-    types: [published]
+  workflow_dispatch:
+
 jobs:
   build-push:
     runs-on: ubuntu-latest
@@ -21,4 +21,3 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/enshrouded-dedicated-server:wine-latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/enshrouded-dedicated-server:wine-${{ github.event.release.tag_name }}

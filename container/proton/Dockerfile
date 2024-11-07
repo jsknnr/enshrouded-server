@@ -8,6 +8,7 @@ ENV STEAM_APP_ID "2278520"
 ENV HOME "/home/steam"
 ENV ENSHROUDED_PATH "/home/steam/enshrouded"
 ENV ENSHROUDED_CONFIG "${ENSHROUDED_PATH}/enshrouded_server.json"
+ENV EXTERNAL_CONFIG 0
 ENV GE_PROTON_VERSION "9-18"
 ENV GE_PROTON_URL "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton${GE_PROTON_VERSION}/GE-Proton${GE_PROTON_VERSION}.tar.gz"
 ENV STEAMCMD_PATH="/home/steam/steamcmd"

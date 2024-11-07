@@ -10,10 +10,11 @@ Run Enshrouded dedicated server in a container. Optionally includes helm chart f
 
 The processes within the container do **NOT** run as root. Everything runs as the user steam (gid:10000/uid:10000 by default). If you exec into the container, you will drop into `/home/steam` as the steam user. Enshrouded will be installed to `/home/steam/enshrouded`. Any persistent volumes should be mounted to `/home/steam/enshrouded/savegame` and be owned by 10000:10000. 
 
+If you absolutely require to run the process in the container as a gid/uid other than 10000, you can build your own image based on my dockerfile. Instructions are covered [Here](https://github.com/jsknnr/enshrouded-server/issues/51)
 
 ### Proton and Wine based images
 
-The `latest` tag is now based on the Proton build instead of Wine. This should be seamless. Outside of `latest`, there is `wine-$realease_version` and `proton-$release_version` with `$release_version` being the version of the release from GitHub.
+The `latest` tag is now based on the Proton build instead of Wine. This should be seamless. Outside of `latest`, there is `wine-$realease_version` and `proton-$release_version` with `$release_version` being the version of the release from GitHub. I am no longer updating the Wine version of this image.
 
 ### Ports
 
@@ -32,6 +33,7 @@ The `latest` tag is now based on the Proton build instead of Wine. This should b
 | QUERY_PORT | Port for steam query of server | 15637 | False |
 | SERVER_SLOTS | Number of slots for connections (Max 16) | 16 | False |
 | SERVER_IP | IP address for server to listen on | 0.0.0.0 | False |
+| EXTERNAL_CONFIG | If you would rather manually supply a config file, set this to true (1) | 0 | False | 
 
 **Note:** SERVER_IP is ignored if using Helm because that isn't how Kubernetes works.
 
