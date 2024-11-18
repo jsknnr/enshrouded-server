@@ -46,7 +46,7 @@ spec:
         - name: SERVER_SLOTS
           value: {{ .Values.config.serverSlots | squote }}
         - name: EXTERNAL_CONFIG
-          value: {{ .Values.config.externalCOnfig | squote }}
+          value: {{ .Values.config.externalConfig | squote }}
         ports:
         - name: game-port
           containerPort: {{ .Values.config.gamePort | int }}
