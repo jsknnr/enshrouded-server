@@ -3,6 +3,7 @@
   "saveDirectory": "./savegame",
   "logDirectory": "./logs",
   "ip": "0.0.0.0",
+  "gamePort": 15636,
   "queryPort": 15637,
   "slotCount": 16,
   "gameSettingsPreset": "Default",
