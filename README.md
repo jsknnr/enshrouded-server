@@ -73,6 +73,7 @@ docker-compose down
 
 compose.yaml file:
 ```yaml
+version: '3'
 services:
   enshrouded:
     image: sknnr/enshrouded-dedicated-server:latest
