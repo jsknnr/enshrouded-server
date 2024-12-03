@@ -126,12 +126,15 @@ while [ $timeout -lt 11 ]; do
     echo "$(timestamp) INFO: Waiting for enshrouded_server.exe to be running"
 done
 
-# Hold us open until we recieve a SIGTERM
+# Hold us open until we recieve a SIGTERM by opening a job waiting for the process to finish then calling `wait`
+tail --pid=$enshrouded_pid -f /dev/null &
 wait
 
-# Handle post SIGTERM from here
-# Hold us open until WSServer-Linux pid closes, indicating full shutdown, then go home
-tail --pid=$enshrouded_pid -f /dev/null
+# Handle post SIGTERM from here (SIGTERM will cancel the `wait` immediately even though the job is not done yet)
+# Check if the enshrouded_server.exe process is still running, and if so, wait for it to close, indicating full shutdown, then go home
+if ps -e | grep "enshrouded_serv"; then
+    tail --pid=$enshrouded_pid -f /dev/null
+fi
 
 # o7
 echo "$(timestamp) INFO: Shutdown complete."
