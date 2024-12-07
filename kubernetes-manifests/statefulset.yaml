@@ -1,0 +1,60 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: enshrouded
+  namespace: enshrouded
+  labels:
+    app: enshrouded
+spec:
+  selector:
+    matchLabels:
+      app: enshrouded
+  serviceName: "enshrouded"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: enshrouded
+    spec:
+      securityContext:
+        runAsUser: 10000
+        runAsGroup: 10000
+        fsGroup: 10000
+      containers:
+        - name: enshrouded
+          image: sknnr/enshrouded-dedicated-server:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 15637
+              name: "query-port-udp"
+              protocol: UDP
+          volumeMounts:
+            - name: enshrouded-data
+              mountPath: /home/steam/enshrouded/savegame
+            - name: config-volume
+              mountPath: /home/steam/enshrouded/enshrouded_server.json
+              subPath: enshrouded_server.json
+          resources:
+            requests:
+              cpu: 500m
+              memory: 500Mi
+            limits:
+              cpu: 4
+              memory: 6Gi
+      volumes:
+        - name: config-volume
+          configMap:
+            name: enshrouded-config
+        - name: enshrouded-data
+          persistentVolumeClaim:
+            claimName: enshrouded-data
+## If you manually create a persistent volume and volume claim, comment out the section below.
+  volumeClaimTemplates:
+  - metadata:
+      name: enshrouded-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 10Gi
