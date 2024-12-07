@@ -1,0 +1,18 @@
+## Example for Nginx
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: enshrouded
+  namespace: enshrouded
+  labels:
+    app: enshrouded
+spec:
+  type: ClusterIP
+  ports:
+    - port: 15637
+      protocol: UDP
+      name: "query-port-udp"
+      targetPort: 15637
+  selector:
+    app: enshrouded

@@ -1,0 +1,81 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: enshrouded-config
+data:
+  enshrouded_server.json: |
+    {
+      "name": "Enshrouded Server",
+      "saveDirectory": "./savegame",
+      "logDirectory": "./logs",
+      "ip": "0.0.0.0",
+      "queryPort": 15637,
+      "slotCount": 16,
+      "gameSettingsPreset": "Default",
+      "gameSettings": {
+        "playerHealthFactor": 1,
+        "playerManaFactor": 1,
+        "playerStaminaFactor": 1,
+        "playerBodyHeatFactor": 1,
+        "enableDurability": true,
+        "enableStarvingDebuff": false,
+        "foodBuffDurationFactor": 1,
+        "fromHungerToStarving": 600000000000,
+        "shroudTimeFactor": 1,
+        "tombstoneMode": "AddBackpackMaterials",
+        "enableGliderTurbulences": true,
+        "weatherFrequency": "Normal",
+        "miningDamageFactor": 1,
+        "plantGrowthSpeedFactor": 1,
+        "resourceDropStackAmountFactor": 1,
+        "factoryProductionSpeedFactor": 1,
+        "perkUpgradeRecyclingFactor": 0.500000,
+        "perkCostFactor": 1,
+        "experienceCombatFactor": 1,
+        "experienceMiningFactor": 1,
+        "experienceExplorationQuestsFactor": 1,
+        "randomSpawnerAmount": "Normal",
+        "aggroPoolAmount": "Normal",
+        "enemyDamageFactor": 1,
+        "enemyHealthFactor": 1,
+        "enemyStaminaFactor": 1,
+        "enemyPerceptionRangeFactor": 1,
+        "bossDamageFactor": 1,
+        "bossHealthFactor": 1,
+        "threatBonus": 1,
+        "pacifyAllEnemies": false,
+        "tamingStartleRepercussion": "LoseSomeProgress",
+        "dayTimeDuration": 1800000000000,
+        "nightTimeDuration": 720000000000
+      },
+      "userGroups": [
+        {
+          "name": "Admin",
+          "password": "AdminXXXXXXXX",
+          "canKickBan": true,
+          "canAccessInventories": true,
+          "canEditBase": true,
+          "canExtendBase": true,
+          "reservedSlots": 0
+        },
+        {
+          "name": "Friend",
+          "password": "FriendXXXXXXXX",
+          "canKickBan": false,
+          "canAccessInventories": true,
+          "canEditBase": true,
+          "canExtendBase": false,
+          "reservedSlots": 0
+        },
+        {
+          "name": "Guest",
+          "password": "GuestXXXXXXXX",
+          "canKickBan": false,
+          "canAccessInventories": false,
+          "canEditBase": false,
+          "canExtendBase": false,
+          "reservedSlots": 0
+        }
+      ]
+    }
