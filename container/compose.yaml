@@ -1,7 +1,7 @@
 version: '3'
 services:
   enshrouded:
-    image: sknnr/enshrouded-dedicated-server:latest
+    image: jogaltanon/enshrouded-server:proton-latest
     ports:
       - "15636:15636/udp"
       - "15637:15637/udp"
