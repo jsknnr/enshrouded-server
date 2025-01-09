@@ -25,15 +25,19 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      # Add Date Tags
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+
       # Build the Docker image
       - name: Build Docker image
         run: |
-          export DATE_TAG=$(date +%Y%m%d)
-          docker build . --file .Dockerfile -t jogaltanon/enshrouded-server:nightly -t jogaltanon/enshrouded-server:$DATE_TAG .
+          docker build . --file .Dockerfile -t jogaltanon/enshrouded-server:nightly -t jogaltanon/enshrouded-server:${{ steps.date.outputs.date }} .
 
       # Push the Docker image
       - name: Push Docker image
         run: |
           docker push jogaltanon/enshrouded-server:nightly
-          docker push jogaltanon/enshrouded-server:$DATE_TAG
+          docker push jogaltanon/enshrouded-server:${{ steps.date.outputs.date }}
 
