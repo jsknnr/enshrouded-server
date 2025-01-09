@@ -1,0 +1,36 @@
+name: Helm Chart Publish
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Check out the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up Helm
+      - name: Install Helm
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+      # Package the Helm chart
+      - name: Package Helm Chart
+        run: |
+          helm package charts/enshrouded --destination ./charts
+          helm repo index charts --url https://jogalt.github.io/enshrouded-server
+
+      # Publish Helm chart to GitHub Pages (optional)
+      - name: Upload to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./charts
