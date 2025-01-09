@@ -1,5 +1,6 @@
 # Start with a Debian-based base image
-FROM debian:bullseye-slim
+FROM ubuntu:latest
+#FROM debian:bullseye-slim
 
 # Set container-specific build arguments
 ARG CONTAINER_GID=10000
