@@ -43,8 +43,9 @@ RUN mkdir "$ENSHROUDED_PATH" \
     && mkdir "$ENSHROUDED_PATH"/savegame \
     && mkdir "$WINEPREFIX" \
     && mkdir /home/steam/steamcmd \
-    && curl -sqL https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz | tar zxvf - -C /home/steam/steamcmd \
-    && chmod +x /home/steam/steamcmd/steamcmd.sh /home/steam/steamcmd/entrypoint.sh /home/steam/steamcmd/enshrouded_server_example.json
+    && curl -sqL https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz | tar zxvf - -C /home/steam/steamcmd
+
+RUN chmod +x /home/steam/steamcmd.sh /home/steam/entrypoint.sh /home/steam/enshrouded_server_example.json
 
 RUN chown -R steam:steam /home/steam/
 
