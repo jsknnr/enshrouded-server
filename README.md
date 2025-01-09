@@ -2,6 +2,8 @@
 
 [![Static Badge](https://img.shields.io/badge/DockerHub-blue)](https://hub.docker.com/r/jogaltanon/enshrouded-server) ![Docker Pulls](https://img.shields.io/docker/pulls/jogaltanon/enshrouded-server) [![Static Badge](https://img.shields.io/badge/GitHub-green)](https://github.com/jogalt/enshrouded-server) ![GitHub Repo stars](https://img.shields.io/github/stars/jogalt/enshrouded-server)
 
+[![Nightly Docker Proton Build](https://github.com/jogalt/enshrouded-server/actions/workflows/docker-image-proton-build.yml/badge.svg)](https://github.com/jogalt/enshrouded-server/actions/workflows/docker-image-proton-build.yml)
+
 
 Run Enshrouded dedicated server in a container. Optionally includes helm chart for running in Kubernetes.
 
