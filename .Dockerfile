@@ -63,8 +63,14 @@ COPY .enshrouded_server_example.json /home/steam/enshrouded_server_example.json
 # Set working directory
 WORKDIR /home/steam
 
+# Switch to root and change execution
+USER root
+
 # Ensure entrypoint script is executable
 RUN chmod +x /home/steam/entrypoint.sh
+
+#Return to steam user for entry
+USER steam
 
 # Default command
 CMD ["/home/steam/entrypoint.sh"]
