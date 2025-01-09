@@ -35,16 +35,16 @@ RUN groupadd -g $CONTAINER_GID steam \
     && apt-get clean \
     && apt-get autoremove -y 
 
-COPY entrypoint.sh /home/steam/entrypoint.sh
-COPY winetricks.sh /home/steam/winetricks.sh
-COPY enshrouded_server_example.json /home/steam/enshrouded_server_example.json
+COPY container/wine/entrypoint.sh /home/steam/entrypoint.sh
+COPY container/wine/winetricks.sh /home/steam/winetricks.sh
+COPY container/wine/enshrouded_server_example.json /home/steam/enshrouded_server_example.json
 
 RUN mkdir "$ENSHROUDED_PATH" \
     && mkdir "$ENSHROUDED_PATH"/savegame \
     && mkdir "$WINEPREFIX" \
     && mkdir /home/steam/steamcmd \
     && curl -sqL https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz | tar zxvf - -C /home/steam/steamcmd \
-    && chmod +x /home/steam/steamcmd/steamcmd.sh
+    && chmod +x /home/steam/steamcmd/steamcmd.sh /home/steam/steamcmd/entrypoint.sh /home/steam/steamcmd/enshrouded_server_example.json
 
 RUN chown -R steam:steam /home/steam/
 
