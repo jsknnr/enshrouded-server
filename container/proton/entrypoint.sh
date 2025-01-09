@@ -112,6 +112,8 @@ if [ $EXTERNAL_CONFIG -eq 0 ]; then
   jq --arg q "$QUERY_PORT" '.queryPort = ($q | tonumber)' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
   jq --arg s "$SERVER_SLOTS" '.slotCount = ($s | tonumber)' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
   jq --arg i "$SERVER_IP" '.ip = $i' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
+  ##Debugging
+  echo "$ENSHROUDED_CONFIG"
 else
   echo "$(timestamp) INFO: EXTERNAL_CONFIG set to true, skipping configuration update"
 fi
