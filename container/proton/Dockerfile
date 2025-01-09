@@ -63,8 +63,8 @@ RUN mkdir -p ${ENSHROUDED_PATH}/savegame \
     && curl -sqL ${GE_PROTON_URL} | tar zxvf - -C "${STEAMCMD_PATH}/compatibilitytools.d/"
 
 # Copy necessary files
-COPY entrypoint.sh /home/steam/entrypoint.sh
-COPY enshrouded_server_example.json /home/steam/enshrouded_server_example.json
+COPY container/proton/entrypoint.sh /home/steam/entrypoint.sh
+COPY container/proton/enshrouded_server_example.json /home/steam/enshrouded_server_example.json
 
 # Set working directory
 WORKDIR /home/steam
