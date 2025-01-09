@@ -1,9 +1,6 @@
 name: Nightly Docker Proton Build
 
 on:
-  push:
-    branches: [ "main" ]
-  # Run at midnight
   schedule:
     - cron: "0 0 * * *"
 
