@@ -1,5 +1,5 @@
 image:
-  repository: sknnr/enshrouded-dedicated-server
+  repository: jogalt/enshrouded-server
   tag: latest
 
 service:

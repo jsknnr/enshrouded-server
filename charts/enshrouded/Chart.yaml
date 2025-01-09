@@ -1,5 +1,5 @@
 apiVersion: v1
-name: enshrouded-dedicated-server
+name: enshrouded-server
 version: 1.0.0
 description: Enshrouded dedicated server.
 keywords:
