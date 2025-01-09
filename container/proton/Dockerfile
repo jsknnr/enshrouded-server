@@ -73,7 +73,7 @@ USER root
 
 # Ensure entrypoint script is executable
 RUN chmod +x /home/steam/entrypoint.sh
-RUN ln -s /home/steam/enshrouded_server.json /enshrouded_server.json
+#RUN ln -s /home/steam/enshrouded_server.json /enshrouded_server.json
 
 USER steam
 

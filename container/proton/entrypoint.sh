@@ -1,6 +1,6 @@
 #!/bin/bash
 #Define Proton version for path. Look at unzipping and extracting to un-numbered directory in the future
-GE_PROTON_VERSION=9-18
+GE_PROTON_VERSION=9-22
 
 #Set enshrouded path, independent of Dockerfile
 : "${ENSHROUDED_PATH:=/home/steam/enshrouded}"
