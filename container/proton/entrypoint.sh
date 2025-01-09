@@ -54,6 +54,11 @@ if [ $? != 0 ]; then
     exit 1
 fi
 
+## For testing ##
+echo "Debugging"
+echo ""
+echo "The enshrouded path is:    ${ENSHROUDED_PATH}"
+echo ""
 # Copy example server config if not already present
 if [ $EXTERNAL_CONFIG -eq 0 ]; then
     if ! [ -f "${ENSHROUDED_PATH}/enshrouded_server.json" ]; then
