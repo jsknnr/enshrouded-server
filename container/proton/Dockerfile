@@ -4,7 +4,7 @@ FROM ubuntu:latest
 # Set container-specific build arguments
 ARG CONTAINER_GID=10000
 ARG CONTAINER_UID=10000
-ARG GE_PROTON_VERSION=9-22
+ARG GE_PROTON_VERSION=9-18
 
 # Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive \
