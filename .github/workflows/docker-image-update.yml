@@ -28,7 +28,7 @@ jobs:
       # Build the Docker image
       - name: Build Docker image
         run: |
-          DATE_TAG=$(date +%Y%m%d)
+          export DATE_TAG=$(date +%Y%m%d)
           docker build . --file .Dockerfile -t jogaltanon/enshrouded-server:nightly -t jogaltanon/enshrouded-server:$DATE_TAG .
 
       # Push the Docker image
