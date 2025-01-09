@@ -4,6 +4,7 @@ FROM ubuntu:latest
 # Set container-specific build arguments
 ARG CONTAINER_GID=10000
 ARG CONTAINER_UID=10000
+ARG GE_PROTON_VERSION=9-22
 
 # Set environment variables
 ENV UBUNTU_FRONTEND=noninteractive \
@@ -12,7 +13,6 @@ ENV UBUNTU_FRONTEND=noninteractive \
     ENSHROUDED_PATH=/home/steam/enshrouded \
     ENSHROUDED_CONFIG=${ENSHROUDED_PATH}/enshrouded_server.json \
     EXTERNAL_CONFIG=0 \
-    GE_PROTON_VERSION="9-22" \
     GE_PROTON_URL=https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton${GE_PROTON_VERSION}/GE-Proton${GE_PROTON_VERSION}.tar.gz \
     STEAMCMD_PATH=/home/steam/steamcmd \
     STEAM_SDK64_PATH=/home/steam/.steam/sdk64 \
