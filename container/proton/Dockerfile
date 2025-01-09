@@ -64,7 +64,7 @@ RUN mkdir -p ${ENSHROUDED_PATH}/savegame \
 
 # Copy necessary files
 COPY container/proton/entrypoint.sh /home/steam/entrypoint.sh
-COPY container/proton/enshrouded_server_example.json /home/steam/enshrouded_server_example.json
+COPY container/proton/enshrouded_server_example.json /home/steam/enshrouded_server.json
 
 # Set working directory
 WORKDIR /home/steam
