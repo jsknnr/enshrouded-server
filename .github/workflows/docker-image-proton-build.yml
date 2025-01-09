@@ -1,9 +1,7 @@
-name: Nightly Docker Build and Updates
+name: Nightly Docker Proton Build
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
     branches: [ "main" ]
   # Run at midnight
   schedule:
@@ -33,7 +31,7 @@ jobs:
       # Build the Docker image
       - name: Build Docker images with 3 separate tags
         run: |
-          docker build --file container/proton/Dockerfile -t jogaltanon/enshrouded-server:nightly -t jogaltanon/enshrouded-server:${{ steps.date.outputs.date }} -t jogaltanon/enshrouded-server:latest .
+          docker build --file container/proton/Dockerfile -t jogaltanon/enshrouded-server:proton-nightly -t jogaltanon/enshrouded-server:proton-${{ steps.date.outputs.date }} -t jogaltanon/enshrouded-server:proton-latest .
 
       # Push the Docker image nightly
       - name: Push Docker nightly image 

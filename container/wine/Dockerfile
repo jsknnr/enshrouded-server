@@ -1,4 +1,4 @@
-FROM debian:12-slim
+FROM ubuntu:latest
 
 ARG CONTAINER_GID=10000
 ARG CONTAINER_UID=10000
@@ -14,6 +14,7 @@ RUN groupadd -g $CONTAINER_GID steam \
     && dpkg --add-architecture i386 \
     && apt-get update \
     && apt-get install --no-install-recommends -y \
+        ubuntu-server \
         procps \
         ca-certificates \
         curl \
@@ -34,9 +35,6 @@ RUN groupadd -g $CONTAINER_GID steam \
     && apt-get clean \
     && apt-get autoremove -y 
 
-
-USER steam
-
 COPY entrypoint.sh /home/steam/entrypoint.sh
 COPY winetricks.sh /home/steam/winetricks.sh
 COPY enshrouded_server_example.json /home/steam/enshrouded_server_example.json
@@ -46,8 +44,13 @@ RUN mkdir "$ENSHROUDED_PATH" \
     && mkdir "$WINEPREFIX" \
     && mkdir /home/steam/steamcmd \
     && curl -sqL https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz | tar zxvf - -C /home/steam/steamcmd \
-    && chmod +x /home/steam/steamcmd/steamcmd.sh \
-    && /home/steam/winetricks.sh
+    && chmod +x /home/steam/steamcmd/steamcmd.sh
+
+RUN chown -R steam:steam /home/steam/
+
+USER steam
+
+RUN /home/steam/winetricks.sh
 
 WORKDIR /home/steam
 

@@ -7,7 +7,7 @@ ARG CONTAINER_UID=10000
 ARG GE_PROTON_VERSION=9-22
 
 # Set environment variables
-ENV UBUNTU_FRONTEND=noninteractive \
+ENV DEBIAN_FRONTEND=noninteractive \
     STEAM_APP_ID=2278520 \
     HOME=/home/steam \
     ENSHROUDED_PATH=/home/steam/enshrouded \
