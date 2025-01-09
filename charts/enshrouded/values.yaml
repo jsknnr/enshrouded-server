@@ -1,5 +1,5 @@
 image:
-  repository: jogalt/enshrouded-server
+  repository: jogaltanon/enshrouded-server
   tag: proton-latest
 
 service:
