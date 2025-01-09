@@ -1,6 +1,6 @@
 # enshrouded-server
 
-[![Static Badge](https://img.shields.io/badge/DockerHub-blue)](https://hub.docker.com/r/sknnr/enshrouded-dedicated-server) ![Docker Pulls](https://img.shields.io/docker/pulls/sknnr/enshrouded-dedicated-server) [![Static Badge](https://img.shields.io/badge/GitHub-green)](https://github.com/jsknnr/enshrouded-server) ![GitHub Repo stars](https://img.shields.io/github/stars/jsknnr/enshrouded-server)
+[![Static Badge](https://img.shields.io/badge/DockerHub-blue)](https://hub.docker.com/r/jogaltanon/enshrouded-server) ![Docker Pulls](https://img.shields.io/docker/pulls/jogaltanon/enshrouded-server) [![Static Badge](https://img.shields.io/badge/GitHub-green)](https://github.com/jogaltanon/enshrouded-server) ![GitHub Repo stars](https://img.shields.io/github/stars/jogaltanon/enshrouded-server)
 
 
 Run Enshrouded dedicated server in a container. Optionally includes helm chart for running in Kubernetes.
