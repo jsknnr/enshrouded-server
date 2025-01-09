@@ -31,20 +31,20 @@ jobs:
       # Build the Docker image
       - name: Build Docker images with 3 separate tags
         run: |
-          docker build --file container/proton/Dockerfile -t jogaltanon/enshrouded-server:proton-nightly -t jogaltanon/enshrouded-server:proton-${{ steps.date.outputs.date }} -t jogaltanon/enshrouded-server:proton-latest .
+          docker build --file container/proton/Dockerfile -t ${{ secrets.DOCKER_USERNAME }}/enshrouded-server:proton-nightly -t ${{ secrets.DOCKER_USERNAME }}/enshrouded-server:proton-${{ steps.date.outputs.date }} -t ${{ secrets.DOCKER_USERNAME }}/enshrouded-server:proton-latest .
 
       # Push the Docker image nightly
       - name: Push Docker nightly image 
         run: |
-          docker push jogaltanon/enshrouded-server:nightly
+          docker push ${{ secrets.DOCKER_USERNAME }}/enshrouded-server:proton-nightly
 
       # Push same image with date tag
       - name: Push Docker image date tag
         run: |
-          docker push jogaltanon/enshrouded-server:${{ steps.date.outputs.date }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/enshrouded-server:proton-${{ steps.date.outputs.date }}
 
       # Push same image with date tag
       - name: Push Docker image w latest tag
         run: |
-          docker push jogaltanon/enshrouded-server:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/enshrouded-server:proton-latest
 
