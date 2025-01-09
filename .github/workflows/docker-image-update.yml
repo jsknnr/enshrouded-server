@@ -45,3 +45,8 @@ jobs:
         run: |
           docker push jogaltanon/enshrouded-server:${{ steps.date.outputs.date }}
 
+      # Push same image with date tag
+      - name: Push Docker image w tag
+        run: |
+          docker push jogaltanon/enshrouded-server:latest
+
