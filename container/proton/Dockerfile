@@ -60,7 +60,7 @@ RUN mkdir -p ${ENSHROUDED_PATH}/savegame \
     && ln -s ${STEAM_SDK64_PATH}/steamclient.so ${STEAM_SDK64_PATH}/steamservice.so \
     && ln -s ${STEAMCMD_PATH}/linux32 ${STEAM_SDK32_PATH} \
     && ln -s ${STEAM_SDK32_PATH}/steamclient.so ${STEAM_SDK32_PATH}/steamservice.so \
-    && curl -sqL ${GE_PROTON_URL} | tar zxvf - -C ""${STEAMCMD_PATH}"/compatibilitytools.d/"
+    && curl -sqL ${GE_PROTON_URL} | tar zxvf - -C ${STEAMCMD_PATH}/compatibilitytools.d/
 
 # Copy necessary files
 COPY container/proton/entrypoint.sh /home/steam/entrypoint.sh
