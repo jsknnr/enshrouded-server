@@ -45,7 +45,7 @@ RUN mkdir "$ENSHROUDED_PATH" \
     && mkdir /home/steam/steamcmd \
     && curl -sqL https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz | tar zxvf - -C /home/steam/steamcmd
 
-RUN chmod +x /home/steam/steamcmd.sh /home/steam/entrypoint.sh /home/steam/enshrouded_server_example.json
+RUN chmod +x /home/steam/entrypoint.sh /home/steam/enshrouded_server_example.json /home/steam/winetricks.sh
 
 RUN chown -R steam:steam /home/steam/
 
