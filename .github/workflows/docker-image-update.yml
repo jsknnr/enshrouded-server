@@ -35,9 +35,13 @@ jobs:
         run: |
           docker build . --file .Dockerfile -t jogaltanon/enshrouded-server:nightly -t jogaltanon/enshrouded-server:${{ steps.date.outputs.date }} .
 
-      # Push the Docker image
-      - name: Push Docker image
+      # Push the Docker image nightly
+      - name: Push Docker image 
         run: |
           docker push jogaltanon/enshrouded-server:nightly
+
+      # Push same image with date tag
+      - name: Push Docker image w tag
+        run: |
           docker push jogaltanon/enshrouded-server:${{ steps.date.outputs.date }}
 
