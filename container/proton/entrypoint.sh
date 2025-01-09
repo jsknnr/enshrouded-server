@@ -1,5 +1,11 @@
 #!/bin/bash
+#Define Proton version for path. Look at unzipping and extracting to un-numbered directory in the future
 GE_PROTON_VERSION=9-18
+
+#Set enshrouded path, independent of Dockerfile
+: "${ENSHROUDED_PATH:=/home/steam/enshrouded}"
+echo "ENSHROUDED_PATH is set to: $ENSHROUDED_PATH"
+
 # Quick function to generate a timestamp
 timestamp() {
   date +"%Y-%m-%d %H:%M:%S,%3N"
