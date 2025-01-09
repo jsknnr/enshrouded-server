@@ -6,6 +6,40 @@ Enshrouded dedicated server.
 
 **Homepage:** <https://enshrouded.com/>
 
+```
+image:
+  repository: jogalt/enshrouded-server
+  tag: latest
+
+service:
+  type: LoadBalancer
+  externalIPs: []
+  annotations: {}
+
+resources:
+  requests:
+    memory: 12G
+    cpu: 4.0
+
+volumes:
+  dataPVC:
+    # -- Size of the persistent volume
+    size: 50Gi
+  storageClassName: ""
+
+config:
+  # -- Server name
+  serverName: "Enshrouded Server"
+  # -- Server password. If not set, password will be generated randomly.
+  serverPassword: ""
+  # -- Existing secret name for server password. Must contain key named "password". If set `serverPassword` will be ignored.
+  serverPasswordExistingSecretName: ""
+  gamePort: 15636
+  queryPort: 15637
+  # -- Number of server slots
+  serverSlots: 16
+  externalConfig: 0
+  ```
 ## Values
 
 | Key | Type | Default | Description |
