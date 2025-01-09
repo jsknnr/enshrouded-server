@@ -12,7 +12,7 @@ on:
 jobs:
 
   build-and-push:
-    runs-on: debian-latest
+    runs-on: ubuntu-latest
     steps:
       #check out repo
       - name: Checkout code
