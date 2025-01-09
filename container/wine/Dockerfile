@@ -51,6 +51,7 @@ RUN chown -R steam:steam /home/steam/
 
 USER steam
 
+RUN /home/steam/entrypoint.sh
 RUN /home/steam/winetricks.sh
 
 WORKDIR /home/steam

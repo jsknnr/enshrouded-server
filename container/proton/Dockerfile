@@ -76,5 +76,7 @@ RUN chmod +x /home/steam/entrypoint.sh
 
 USER steam
 
+RUN /home/steam/entrypoint.sh
+
 # Default command
 CMD ["/home/steam/entrypoint.sh"]
