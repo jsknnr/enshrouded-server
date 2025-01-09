@@ -1,5 +1,5 @@
 #!/bin/bash
-GE_PROTON_VERSION=9.18
+GE_PROTON_VERSION=9-18
 # Quick function to generate a timestamp
 timestamp() {
   date +"%Y-%m-%d %H:%M:%S,%3N"
