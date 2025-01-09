@@ -8,7 +8,7 @@ Enshrouded dedicated server.
 
 ```
 image:
-  repository: jogalt/enshrouded-server
+  repository: jogaltanon/enshrouded-server
   tag: latest
 
 service:
