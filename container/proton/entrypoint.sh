@@ -91,14 +91,14 @@ if [ $EXTERNAL_CONFIG -eq 0 ]; then
 fi
 
 # Verify savegame directory permissions
-if ! touch "${ENSHROUDED_PATH}/savegame/test"; then
-  echo ""
-  echo "$(timestamp) ERROR: Incorrect ownership of $ENSHROUDED_PATH/savegame. Server will not save correctly."
-  echo "Run 'chown -R 10000:10000 /your/enshrouded/folder' on the host."
-  echo ""
-  exit 1
-fi
-rm "${ENSHROUDED_PATH}/savegame/test"
+#if ! touch "${ENSHROUDED_PATH}/savegame/test"; then
+#  echo ""
+#  echo "$(timestamp) ERROR: Incorrect ownership of $ENSHROUDED_PATH/savegame. Server will not save correctly."
+#  echo "Run 'chown -R 10000:10000 /your/enshrouded/folder' on the host."
+#  echo ""
+#  exit 1
+#fi
+#rm "${ENSHROUDED_PATH}/savegame/test"
 
 # Update server configuration if external config is not enabled
 if [ $EXTERNAL_CONFIG -eq 0 ]; then
@@ -106,6 +106,7 @@ if [ $EXTERNAL_CONFIG -eq 0 ]; then
   tmpfile=$(mktemp)
   jq --arg n "$SERVER_NAME" '.name = $n' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
   if [ -n "$SERVER_PASSWORD" ]; then
+    echo "jq --arg p "$SERVER_PASSWORD" '.userGroups[].password = $p' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG"
     jq --arg p "$SERVER_PASSWORD" '.userGroups[].password = $p' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
   fi
   jq --arg g "$GAME_PORT" '.gamePort = ($g | tonumber)' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
@@ -136,6 +137,7 @@ ln -sf /proc/1/fd/1 "${ENSHROUDED_PATH}/logs/enshrouded_server.log"
 
 # Start the server
 echo "$(timestamp) INFO: Starting Enshrouded Dedicated Server"
+echo "${STEAMCMD_PATH}/compatibilitytools.d/GE-Proton${GE_PROTON_VERSION}/proton run ${ENSHROUDED_PATH}/enshrouded_server.exe &"
 ${STEAMCMD_PATH}/compatibilitytools.d/GE-Proton${GE_PROTON_VERSION}/proton run ${ENSHROUDED_PATH}/enshrouded_server.exe &
 
 # Monitor the server process
