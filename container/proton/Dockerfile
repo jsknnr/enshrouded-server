@@ -7,19 +7,19 @@ ARG CONTAINER_UID=10000
 ARG GE_PROTON_VERSION=9-22
 
 # Set environment variables
-ENV DEBIAN_FRONTEND=noninteractive \
-    STEAM_APP_ID=2278520 \
-    HOME=/home/steam \
-    ENSHROUDED_PATH=/home/steam/enshrouded \
-    ENSHROUDED_CONFIG=${ENSHROUDED_PATH}/enshrouded_server.json \
-    EXTERNAL_CONFIG=0 \
-    GE_PROTON_URL=https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton${GE_PROTON_VERSION}/GE-Proton${GE_PROTON_VERSION}.tar.gz \
-    STEAMCMD_PATH=/home/steam/steamcmd \
-    STEAM_SDK64_PATH=/home/steam/.steam/sdk64 \
-    STEAM_SDK32_PATH=/home/steam/.steam/sdk32 \
-    STEAM_COMPAT_CLIENT_INSTALL_PATH=/home/steam/steamcmd \
-    STEAM_COMPAT_DATA_PATH=${STEAMCMD_PATH}/steamapps/compatdata/2278520 \
-    UMU_ID=0
+ENV DEBIAN_FRONTEND "noninteractive"
+ENV STEAM_APP_ID "2278520"
+ENV HOME "/home/steam"
+ENV ENSHROUDED_PATH "/home/steam/enshrouded"
+ENV ENSHROUDED_CONFIG "${ENSHROUDED_PATH}/enshrouded_server.json"
+ENV EXTERNAL_CONFIG 0
+ENV GE_PROTON_URL "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton${GE_PROTON_VERSION}/GE-Proton${GE_PROTON_VERSION}.tar.gz"
+ENV STEAMCMD_PATH="/home/steam/steamcmd"
+ENV STEAM_SDK64_PATH="/home/steam/.steam/sdk64"
+ENV STEAM_SDK32_PATH="/home/steam/.steam/sdk32"
+ENV STEAM_COMPAT_CLIENT_INSTALL_PATH "$STEAMCMD_PATH"
+ENV STEAM_COMPAT_DATA_PATH "${STEAMCMD_PATH}/steamapps/compatdata/${STEAM_APP_ID}"
+ENV UMU_ID 0
 
 # Install required dependencies and create the steam user
 RUN dpkg --add-architecture i386
