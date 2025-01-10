@@ -32,6 +32,11 @@ jobs:
       - name: Build Docker images with 3 separate tags
         run: |
           docker build --file container/proton/Dockerfile -t ${{ secrets.DOCKER_USERNAME }}/enshrouded-server:proton-nightly -t ${{ secrets.DOCKER_USERNAME }}/enshrouded-server:proton-${{ steps.date.outputs.date }} -t ${{ secrets.DOCKER_USERNAME }}/enshrouded-server:proton-latest .
+    
+      # Run Docker container
+      - name: Run Docker container
+        run: |
+          docker run -d --name enshrouded-server ${{ secrets.DOCKER_USERNAME }}/enshrouded-server:proton-nightly
 
       # Wait for server save event
       - name: Wait for "[server] Saved" event in logs
