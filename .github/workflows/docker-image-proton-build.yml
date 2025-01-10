@@ -12,11 +12,11 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
     steps:
-      #check out repo
+      # Check out repo
       - name: Checkout code
         uses: actions/checkout@v3
 
-      #Log into Docker Hub
+      # Log into Docker Hub
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
@@ -33,6 +33,28 @@ jobs:
         run: |
           docker build --file container/proton/Dockerfile -t ${{ secrets.DOCKER_USERNAME }}/enshrouded-server:proton-nightly -t ${{ secrets.DOCKER_USERNAME }}/enshrouded-server:proton-${{ steps.date.outputs.date }} -t ${{ secrets.DOCKER_USERNAME }}/enshrouded-server:proton-latest .
 
+      # Run Docker container
+      - name: Run Docker container
+        run: |
+          docker run -d --name enshrouded-server ${{ secrets.DOCKER_USERNAME }}/enshrouded-server:proton-nightly
+
+      # Wait for server save event
+      - name: Wait for "[server] Saved" event in logs
+        run: |
+          echo "Waiting for '[server] Saved' in logs..."
+          timeout 300 bash -c "until docker logs enshrouded-server 2>&1 | grep -q '\[server\] Saved'; do sleep 5; done"
+          echo "'[server] Saved' detected."
+
+      # Stop Docker container
+      - name: Stop Docker container
+        run: |
+          echo "Stopping container..."
+          docker stop enshrouded-server
+
+      # Remove the container
+      - name: Remove Docker container
+        run: docker rm enshrouded-server
+
       # Push the Docker image nightly
       - name: Push Docker nightly image 
         run: |
@@ -43,8 +65,7 @@ jobs:
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/enshrouded-server:proton-${{ steps.date.outputs.date }}
 
-      # Push same image with date tag
-      - name: Push Docker image w latest tag
+      # Push same image with latest tag
+      - name: Push Docker image with latest tag
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/enshrouded-server:proton-latest
-
