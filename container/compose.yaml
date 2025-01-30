@@ -3,13 +3,11 @@ services:
   enshrouded:
     image: sknnr/enshrouded-dedicated-server:latest
     ports:
-      - "15636:15636/udp"
       - "15637:15637/udp"
     environment:
       - SERVER_NAME=Enshrouded Containerized
       - SERVER_PASSWORD=PleaseChangeMe
-      - GAME_PORT=15636
-      - QUERY_PORT=15637
+      - PORT=15637
       - SERVER_SLOTS=16
       - SERVER_IP=0.0.0.0
     volumes:

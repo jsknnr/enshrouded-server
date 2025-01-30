@@ -39,20 +39,15 @@ spec:
             secretKeyRef:
               name: {{ include "enshrouded.passwordSecretName" . }}
               key: serverPassword
-        - name: GAME_PORT
-          value: {{ .Values.config.gamePort | squote }}
-        - name: QUERY_PORT
-          value: {{ .Values.config.queryPort | squote }}
+        - name: PORT
+          value: {{ .Values.config.port | squote }}
         - name: SERVER_SLOTS
           value: {{ .Values.config.serverSlots | squote }}
         - name: EXTERNAL_CONFIG
           value: {{ .Values.config.externalConfig | squote }}
         ports:
-        - name: game-port
-          containerPort: {{ .Values.config.gamePort | int }}
-          protocol: UDP
-        - name: query-port
-          containerPort: {{ .Values.config.queryPort | int }}
+        - name: port
+          containerPort: {{ .Values.config.port | int }}
           protocol: UDP
         volumeMounts:
         - name: data

@@ -10,8 +10,7 @@ Enshrouded dedicated server.
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| config.gamePort | int | `15636` |  |
-| config.queryPort | int | `15637` |  |
+| config.queryPort | int | `15637` | The port used by the game server |
 | config.serverName | string | `"Enshrouded Server"` | Server name |
 | config.serverPassword | string | `""` | Server password. If not set, password will be generated randomly. |
 | config.serverPasswordExistingSecretName | string | `""` | Existing secret name for server password. Must contain key named "password". If set `serverPassword` will be ignored. |

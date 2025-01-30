@@ -25,8 +25,7 @@ config:
   serverPassword: ""
   # -- Existing secret name for server password. Must contain key named "password". If set `serverPassword` will be ignored.
   serverPasswordExistingSecretName: ""
-  gamePort: 15636
-  queryPort: 15637
+  port: 15637
   # -- Number of server slots
   serverSlots: 16
   externalConfig: 0

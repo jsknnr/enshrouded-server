@@ -16,19 +16,12 @@ spec:
   externalIPs: {{ . | toYaml | nindent 4 }}
   {{- end }}
   ports:
-  - name: game-port
-    port: {{ .Values.config.gamePort | int }}
-    targetPort: game-port
+  - name: port
+    port: {{ .Values.config.port | int }}
+    targetPort: port
     protocol: UDP
     {{- if eq .Values.service.type "NodePort" }}
-    nodePort: {{ .Values.config.gamePort | int }}
-    {{- end }}
-  - name: query-port
-    port: {{ .Values.config.queryPort | int }}
-    targetPort: query-port
-    protocol: UDP
-    {{- if eq .Values.service.type "NodePort" }}
-    nodePort: {{ .Values.config.queryPort| int }}
+    nodePort: {{ .Values.config.port| int }}
     {{- end }}
   selector:
     app: "{{ .Chart.Name }}"
