@@ -1,0 +1,22 @@
+# Example for Cilium with LoadBalancer dedicated Loadbalancer address
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: enshrouded
+  namespace: enshrouded
+  annotations:
+    io.cilium/lb-ipam-ips: "10.26.14.82"
+    kubernetes.io/ingress.class: "cilium"
+    ingress.cilium.io/loadbalancer-mode: "dedicated"
+  labels:
+    app: enshrouded
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 15637
+      protocol: UDP
+      name: "query-port-udp"
+      targetPort: 15637
+  selector:
+    app: enshrouded
