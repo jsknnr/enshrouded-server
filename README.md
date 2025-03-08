@@ -140,6 +140,19 @@ WantedBy=multi-user.target default.target
 
 I've built a Helm chart and have included it in the `helm` directory within this repo. Modify the `values.yaml` file to your liking and install the chart into your cluster. Be sure to create and specify a namespace as I did not include a template for provisioning a namespace.
 
+You can either download or clone this repo and use helm agains the chart locally, use [ArgoCD](https://argoproj.github.io/cd/) and point it to this repo (/helm/enshrouded-dedicated-server directory), or add this repo as a helm repository.
+
+To add this repo as a helm repository:
+```bash
+helm repo add enshrouded https://jsknnr.github.io/enshrouded-server/
+helm update
+```
+Then to install the chart from the repo:
+```bash
+helm install enshrouded enshrouded/enshrouded-dedicated-server --values myvalues.yaml
+# Where myvalues.yaml is your copy of the Values.yaml file with the settings that you want
+```
+
 ## Troubleshooting
 
 ### Connectivity
