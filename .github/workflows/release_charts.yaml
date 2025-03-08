@@ -1,4 +1,4 @@
-name: Release Charts
+name: Release to Charts Repo
 
 on:
   push:
@@ -6,26 +6,24 @@ on:
       - main
 
 jobs:
-  release:
-    # depending on default permission settings for your org (contents being read-only or read-write for workloads), you will have to add permissions
-    # see: https://docs.github.com/en/actions/security-guides/automatic-token-authentication#modifying-the-permissions-for-the-github_token
-    permissions:
-      contents: write
+  commit-to-repo:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+      - name: Checkout source repository
+        uses: actions/checkout@v3
 
-      - name: Configure Git
-        run: |
-          git config user.name "$GITHUB_ACTOR"
-          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
-
-      - name: Run chart-releaser
-        uses: helm/chart-releaser-action@v1.7.0
-        with:
-            charts_dir: helm
+      - name: Commit and push changes to charts repo
         env:
-          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
+          CHART_NAME: enshrouded-dedicated-server
+        run: |
+          git config --global user.name "github-actions-bot"
+          git config --global user.email "github-actions-bot@users.noreply.github.com"
+          git clone https://github.com/jsknnr/helm-charts.git
+          cd helm-charts/charts
+          [ ! -d "${{env.CHART_NAME}}" ] && mkdir "${{env.CHART_NAME}}"
+          cp -r ../helm/* ./"${{env.CHART_NAME}}"/
+          git add .
+          git commit -m "Automated commit from GitHub Actions for ${{env.CHART_NAME}}"
+          git push origin main
