@@ -23,7 +23,7 @@ jobs:
           git clone https://github.com/jsknnr/helm-charts.git
           cd helm-charts/charts
           [ ! -d "${{env.CHART_NAME}}" ] && mkdir "${{env.CHART_NAME}}"
-          cp -r ../helm/* ./"${{env.CHART_NAME}}"/
+          cp -r ../../helm/* ./"${{env.CHART_NAME}}"/
           git add .
           git commit -m "Automated commit from GitHub Actions for ${{env.CHART_NAME}}"
           git push origin main
