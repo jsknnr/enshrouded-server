@@ -20,7 +20,6 @@ The `latest` tag is now based on the Proton build instead of Wine. This should b
 
 | Port       | Protocol | Default |
 | ---------- | -------- | ------- |
-| Game Port  | UDP      | 15636   |
 | Query Port | UDP      | 15637   |
 
 ### Environment Variables
@@ -46,7 +45,6 @@ docker run \
   --detach \
   --name enshrouded-server \
   --mount type=volume,source=enshrouded-persistent-data,target=/home/steam/enshrouded/savegame \
-  --publish 15636:15636/udp \
   --publish 15637:15637/udp \
   --env=SERVER_NAME='Enshrouded Containerized Server' \
   --env=SERVER_SLOTS=16 \
@@ -77,7 +75,6 @@ services:
   enshrouded:
     image: sknnr/enshrouded-dedicated-server:latest
     ports:
-      - "15636:15636/udp"
       - "15637:15637/udp"
     environment:
       - SERVER_NAME=Enshrouded Containerized
@@ -102,7 +99,6 @@ podman run \
   --detach \
   --name enshrouded-server \
   --mount type=volume,source=enshrouded-persistent-data,target=/home/steam/enshrouded/savegame \
-  --publish 15636:15636/udp \
   --publish 15637:15637/udp \
   --env=SERVER_NAME='Enshrouded Containerized Server' \
   --env=SERVER_SLOTS=16 \
@@ -122,7 +118,7 @@ Description=Enshrouded Game Server
 [Container]
 Image=docker.io/sknnr/enshrouded-dedicated-server:latest
 Volume=enshrouded-persistent-data:/home/steam/enshrouded/savegame
-PublishPort=15636-15637:15636-15637/udp
+PublishPort=15637:15637/udp
 ContainerName=enshrouded-server
 Environment=SERVER_NAME="Enshrouded Containerized Server"
 Environment=SERVER_PASSWORD="ChangeThisPlease"
