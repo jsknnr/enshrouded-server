@@ -22,9 +22,9 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git clone https://github.com/jsknnr/helm-charts.git
           cd helm-charts/charts
-          git remote add origin 'https://${{secrets.ACTIONS_GITHUB_TOKEN}}@github.com/jsknnr/helm-charts.git'
           [ ! -d "${{env.CHART_NAME}}" ] && mkdir "${{env.CHART_NAME}}"
           cp -r ../../helm/* ./"${{env.CHART_NAME}}"/
+          git remote set-url origin 'https://${{secrets.ACTIONS_GITHUB_TOKEN}}@github.com/jsknnr/helm-charts.git'
           git add .
           git commit -m "Automated commit from GitHub Actions for ${{env.CHART_NAME}}"
           git push origin main
