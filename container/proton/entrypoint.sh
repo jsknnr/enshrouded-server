@@ -24,14 +24,9 @@ if [ -z "$SERVER_PASSWORD" ]; then
     echo "$(timestamp) WARN: SERVER_PASSWORD not set, server will be open to the public"
 fi
 
-if [ -z "$GAME_PORT" ]; then
-    GAME_PORT='15636'
-    echo "$(timestamp) WARN: GAME_PORT not set, using default: 15636"
-fi
-
-if [ -z "$QUERY_PORT" ]; then
-    QUERY_PORT='15637'
-    echo "$(timestamp) WARN: QUERY_PORT not set, using default: 15637"
+if [ -z "$PORT" ]; then
+    PORT='15637'
+    echo "$(timestamp) WARN: PORT not set, using default: 15637"
 fi
 
 if [ -z "$SERVER_SLOTS" ]; then
@@ -82,8 +77,7 @@ if [ $EXTERNAL_CONFIG -eq 0 ]; then
     if [ -n "$SERVER_PASSWORD" ]; then
         jq --arg p "$SERVER_PASSWORD" '.userGroups[].password = $p' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
     fi
-    jq --arg g "$GAME_PORT" '.gamePort = ($g | tonumber)' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
-    jq --arg q "$QUERY_PORT" '.queryPort = ($q | tonumber)' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
+    jq --arg q "$PORT" '.queryPort = ($q | tonumber)' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
     jq --arg s "$SERVER_SLOTS" '.slotCount = ($s | tonumber)' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
     jq --arg i "$SERVER_IP" '.ip = $i' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
 else
