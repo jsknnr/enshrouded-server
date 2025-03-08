@@ -57,6 +57,11 @@ if [ $EXTERNAL_CONFIG -eq 0 ]; then
     fi
 fi
 
+# Check that savegame directory exists, if not create
+if ! [ -d "${ENSHROUDED_PATH}/savegame" ]; then
+    mkdir -p "${ENSHROUDED_PATH}/savegame"
+fi
+
 # Check for proper save permissions
 if ! touch "${ENSHROUDED_PATH}/savegame/test"; then
     echo ""
