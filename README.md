@@ -35,6 +35,9 @@ The `latest` tag is now based on the Proton build instead of Wine. This should b
 
 **Note:** SERVER_IP is ignored if using Helm because that isn't how Kubernetes works.
 
+### External config
+`docker-compose-external.yml` copys `enshrouded_server_extenal.json` into container to replace the default config file to make it simpler to change all of the sever settings and user groups more info on settings [here](https://enshrouded.zendesk.com/hc/en-us/articles/16055441447709-Dedicated-Server-Configuration)
+
 ### Docker
 
 To run the container in Docker, run the following command:
@@ -87,6 +90,45 @@ services:
 
 volumes:
   enshrouded-persistent-data:
+```
+
+to use the external config compose file 
+
+```bash
+docker-compose -f docker-compose-external-config.yaml up -d
+```
+
+To bring the container down:
+
+```bash
+docker-compose -f docker-compose-external-config.yaml down
+```
+
+compose.yaml file:
+
+```yaml
+services:
+  enshrouded:
+    image: sknnr/enshrouded-dedicated-server:latest
+    ports:
+      - "15637:15637/udp"
+    environment:
+      - EXTERNAL_CONFIG=1
+    volumes:
+      - 'enshrouded-persistent-data:/home/steam/enshrouded/savegame'
+      - ./enshrouded_server_extenal.json:/home/steam/enshrouded/enshrouded_server.json #replaces defaut configuration file
+    restart: unless-stopped
+
+volumes: 
+  enshrouded-persistent-data:
+    # to set up a persistent volume, you can use the local driver with a bind mount
+    # Uncomment the following lines to use a local directory for persistent data storage
+    # Note: Ensure the path exists on your host machine before starting the container
+    # driver: local
+    # driver_opts:
+    #   type: none
+    #   device: /path/to/your/host/directory # Change this to your desired host directory
+    #   o: bind # This volume is bound to the host directory for persistent data storage
 ```
 
 ### Podman
