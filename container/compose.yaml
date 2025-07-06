@@ -1,6 +1,7 @@
 version: '3'
 services:
   enshrouded:
+    container_name: 'enshrouded-server'
     image: sknnr/enshrouded-dedicated-server:latest
     ports:
       - "15637:15637/udp"
