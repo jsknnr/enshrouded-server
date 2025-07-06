@@ -12,6 +12,7 @@ services:
       - SERVER_IP=0.0.0.0
     volumes:
       - enshrouded-persistent-data:/home/steam/enshrouded/savegame
-
+    restart: unless-stopped
+    
 volumes:
   enshrouded-persistent-data:
