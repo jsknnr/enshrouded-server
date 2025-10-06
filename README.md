@@ -12,10 +12,6 @@ The processes within the container do **NOT** run as root. Everything runs as th
 
 If you absolutely require to run the process in the container as a gid/uid other than 10000, you can build your own image based on my dockerfile. Instructions are covered [Here](https://github.com/jsknnr/enshrouded-server/issues/51)
 
-### Proton and Wine based images
-
-The `latest` tag is now based on the Proton build instead of Wine. This should be seamless. Outside of `latest`, there is `wine-$realease_version` and `proton-$release_version` with `$release_version` being the version of the release from GitHub. I am no longer updating the Wine version of this image.
-
 ### Ports
 
 | Port       | Protocol | Default |

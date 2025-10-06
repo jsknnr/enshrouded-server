@@ -15,28 +15,31 @@ shutdown () {
 trap 'shutdown' TERM
 
 # Validate arguments
-if [ -z "$SERVER_NAME" ]; then
-    SERVER_NAME='Enshrouded Containerized'
-    echo "$(timestamp) WARN: SERVER_NAME not set, using default: Enshrouded Containerized"
-fi
+# Only check if EXTERNAL_CONFIG is not enabled
+if [ "$EXTERNAL_CONFIG" -eq 0 ]; then
+    if [ -z "$SERVER_NAME" ]; then
+        SERVER_NAME='Enshrouded Containerized'
+        echo "$(timestamp) WARN: SERVER_NAME not set, using default: Enshrouded Containerized"
+    fi
 
-if [ -z "$SERVER_PASSWORD" ]; then
-    echo "$(timestamp) WARN: SERVER_PASSWORD not set, server will be open to the public"
-fi
+    if [ -z "$SERVER_PASSWORD" ]; then
+        echo "$(timestamp) WARN: SERVER_PASSWORD not set, server will be open to the public"
+    fi
 
-if [ -z "$PORT" ]; then
-    PORT='15637'
-    echo "$(timestamp) WARN: PORT not set, using default: 15637"
-fi
+    if [ -z "$PORT" ]; then
+        PORT='15637'
+        echo "$(timestamp) WARN: PORT not set, using default: 15637"
+    fi
 
-if [ -z "$SERVER_SLOTS" ]; then
-    SERVER_SLOTS='16'
-    echo "$(timestamp) WARN: SERVER_SLOTS not set, using default: 16"
-fi
+    if [ -z "$SERVER_SLOTS" ]; then
+        SERVER_SLOTS='16'
+        echo "$(timestamp) WARN: SERVER_SLOTS not set, using default: 16"
+    fi
 
-if [ -z "$SERVER_IP" ]; then
-    SERVER_IP='0.0.0.0'
-    echo "$(timestamp) WARN: SERVER_IP not set, using default: 0.0.0.0"
+    if [ -z "$SERVER_IP" ]; then
+        SERVER_IP='0.0.0.0'
+        echo "$(timestamp) WARN: SERVER_IP not set, using default: 0.0.0.0"
+    fi
 fi
 
 # Install/Update Enshrouded
