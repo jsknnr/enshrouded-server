@@ -28,7 +28,7 @@ spec:
       containers:
       - name: "{{ .Chart.Name }}"
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-        imagePullPolicy: Always
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
         resources:
 {{ toYaml .Values.resources | indent 10 }}
         env:
@@ -41,6 +41,8 @@ spec:
               key: serverPassword
         - name: PORT
           value: {{ .Values.config.port | squote }}
+        - name: STEAM_PORT
+          value: {{ .Values.config.steamPort | squote }}
         - name: SERVER_SLOTS
           value: {{ .Values.config.serverSlots | squote }}
         - name: EXTERNAL_CONFIG
@@ -48,6 +50,9 @@ spec:
         ports:
         - name: port
           containerPort: {{ .Values.config.port | int }}
+          protocol: UDP
+        - name: steam-port
+          containerPort: {{ .Values.config.steamPort | int }}
           protocol: UDP
         volumeMounts:
         - name: data

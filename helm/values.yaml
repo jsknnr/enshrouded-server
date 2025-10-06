@@ -1,6 +1,7 @@
 image:
   repository: sknnr/enshrouded-dedicated-server
   tag: latest
+  pullPolicy: Always
 
 service:
   type: LoadBalancer
@@ -26,6 +27,7 @@ config:
   # -- Existing secret name for server password. Must contain key named "password". If set `serverPassword` will be ignored.
   serverPasswordExistingSecretName: ""
   port: 15637
+  steamPort: 27015
   # -- Number of server slots
   serverSlots: 16
   externalConfig: 0
