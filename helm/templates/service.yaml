@@ -23,5 +23,12 @@ spec:
     {{- if eq .Values.service.type "NodePort" }}
     nodePort: {{ .Values.config.port| int }}
     {{- end }}
+  - name: steam-port
+    port: {{ .Values.config.steamPort | int }}
+    targetPort: port
+    protocol: UDP
+    {{- if eq .Values.service.type "NodePort" }}
+    nodePort: {{ .Values.config.steamPort | int }}
+    {{- end }}
   selector:
     app: "{{ .Chart.Name }}"
