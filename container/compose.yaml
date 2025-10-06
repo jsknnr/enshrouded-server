@@ -1,6 +1,7 @@
 version: '3'
 services:
   enshrouded:
+    container_name: 'enshrouded-server'
     image: sknnr/enshrouded-dedicated-server:latest
     ports:
       - "15637:15637/udp"
@@ -13,6 +14,7 @@ services:
       - SERVER_IP=0.0.0.0
     volumes:
       - enshrouded-persistent-data:/home/steam/enshrouded/savegame
-
+    restart: unless-stopped
+    
 volumes:
   enshrouded-persistent-data:
