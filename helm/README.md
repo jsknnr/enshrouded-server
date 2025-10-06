@@ -11,6 +11,7 @@ Enshrouded dedicated server.
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | config.queryPort | int | `15637` | The port used by the game server |
+| config.steamPort | int | `27015` | Port used for Steam to show server |
 | config.serverName | string | `"Enshrouded Server"` | Server name |
 | config.serverPassword | string | `""` | Server password. If not set, password will be generated randomly. |
 | config.serverPasswordExistingSecretName | string | `""` | Existing secret name for server password. Must contain key named "password". If set `serverPassword` will be ignored. |

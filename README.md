@@ -12,15 +12,12 @@ The processes within the container do **NOT** run as root. Everything runs as th
 
 If you absolutely require to run the process in the container as a gid/uid other than 10000, you can build your own image based on my dockerfile. Instructions are covered [Here](https://github.com/jsknnr/enshrouded-server/issues/51)
 
-### Proton and Wine based images
-
-The `latest` tag is now based on the Proton build instead of Wine. This should be seamless. Outside of `latest`, there is `wine-$realease_version` and `proton-$release_version` with `$release_version` being the version of the release from GitHub. I am no longer updating the Wine version of this image.
-
 ### Ports
 
 | Port       | Protocol | Default |
 | ---------- | -------- | ------- |
 | Query Port | UDP      | 15637   |
+| Steam Port | UDP      | 27015   |
 
 ### Environment Variables
 
@@ -28,7 +25,8 @@ The `latest` tag is now based on the Proton build instead of Wine. This should b
 | --------------- | ----------------------------------------------------------------------- | ------------------------ | -------- |
 | SERVER_NAME     | Name for the Server                                                     | Enshrouded Containerized | False    |
 | SERVER_PASSWORD | Password for the server                                                 | None                     | False    |
-| PORT            | Port for steam query of server                                          | 15637                    | False    |
+| PORT            | Game port                                                               | 15637                    | False    |
+| STEAM_PORT      | Port used for Steam query                                               | 27015                    | False    |
 | SERVER_SLOTS    | Number of slots for connections (Max 16)                                | 16                       | False    |
 | SERVER_IP       | IP address for server to listen on                                      | 0.0.0.0                  | False    |
 | EXTERNAL_CONFIG | If you would rather manually supply a config file, set this to true (1) | 0                        | False    |
@@ -46,6 +44,7 @@ docker run \
   --name enshrouded-server \
   --mount type=volume,source=enshrouded-persistent-data,target=/home/steam/enshrouded/savegame \
   --publish 15637:15637/udp \
+  --publish 27015:27015/udp \
   --env=SERVER_NAME='Enshrouded Containerized Server' \
   --env=SERVER_SLOTS=16 \
   --env=SERVER_PASSWORD='ChangeThisPlease' \
@@ -76,6 +75,7 @@ services:
     image: sknnr/enshrouded-dedicated-server:latest
     ports:
       - "15637:15637/udp"
+      - "27015:27015/udp"
     environment:
       - SERVER_NAME=Enshrouded Containerized
       - SERVER_PASSWORD=PleaseChangeMe
@@ -100,6 +100,7 @@ podman run \
   --name enshrouded-server \
   --mount type=volume,source=enshrouded-persistent-data,target=/home/steam/enshrouded/savegame \
   --publish 15637:15637/udp \
+  --publish 27015:27015/udp \
   --env=SERVER_NAME='Enshrouded Containerized Server' \
   --env=SERVER_SLOTS=16 \
   --env=SERVER_PASSWORD='ChangeThisPlease' \
@@ -119,6 +120,7 @@ Description=Enshrouded Game Server
 Image=docker.io/sknnr/enshrouded-dedicated-server:latest
 Volume=enshrouded-persistent-data:/home/steam/enshrouded/savegame
 PublishPort=15637:15637/udp
+PublishPort=27015:27015/udp
 ContainerName=enshrouded-server
 Environment=SERVER_NAME="Enshrouded Containerized Server"
 Environment=SERVER_PASSWORD="ChangeThisPlease"

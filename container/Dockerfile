@@ -1,4 +1,4 @@
-FROM debian:12-slim
+FROM debian:13-slim
 
 ARG CONTAINER_GID=10000
 ARG CONTAINER_UID=10000
@@ -9,7 +9,7 @@ ENV HOME "/home/steam"
 ENV ENSHROUDED_PATH "/home/steam/enshrouded"
 ENV ENSHROUDED_CONFIG "${ENSHROUDED_PATH}/enshrouded_server.json"
 ENV EXTERNAL_CONFIG 0
-ENV GE_PROTON_VERSION "9-25"
+ENV GE_PROTON_VERSION "10-17"
 ENV GE_PROTON_URL "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton${GE_PROTON_VERSION}/GE-Proton${GE_PROTON_VERSION}.tar.gz"
 ENV STEAMCMD_PATH="/home/steam/steamcmd"
 ENV STEAM_SDK64_PATH="/home/steam/.steam/sdk64"
@@ -32,6 +32,7 @@ RUN groupadd -g $CONTAINER_GID steam \
         jq \
         locales \
         lib32gcc-s1 \
+        python3 \
     && echo 'LANG="en_US.UTF-8"' > /etc/default/locale \
     && echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
     && locale-gen \
