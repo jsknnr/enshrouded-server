@@ -14,7 +14,7 @@ shutdown () {
 # Set our trap
 trap 'shutdown' TERM
 
-#validate that we have the required environment variables set
+# Validate arguments
 # Only check if EXTERNAL_CONFIG is not enabled
 if [ "$EXTERNAL_CONFIG" -eq 0 ]; then
     if [ -z "$SERVER_NAME" ]; then
