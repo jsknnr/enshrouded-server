@@ -8,7 +8,7 @@ services:
       - EXTERNAL_CONFIG=1
     volumes:
       - 'enshrouded-persistent-data:/home/steam/enshrouded/savegame'
-      - ./enshrouded_server_extenal.json:/home/steam/enshrouded/enshrouded_server.json #replaces defaut configuration file
+      - ./enshrouded_server_external.json:/home/steam/enshrouded/enshrouded_server.json #replaces default configuration file
     restart: unless-stopped
 
 volumes: 

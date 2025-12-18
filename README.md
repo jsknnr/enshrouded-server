@@ -34,7 +34,7 @@ If you absolutely require to run the process in the container as a gid/uid other
 **Note:** SERVER_IP is ignored if using Helm because that isn't how Kubernetes works.
 
 ### External config
-`docker-compose-external.yml` copys `enshrouded_server_extenal.json` into container to replace the default config file to make it simpler to change all of the sever settings and user groups more info on settings [here](https://enshrouded.zendesk.com/hc/en-us/articles/16055441447709-Dedicated-Server-Configuration)
+`docker-compose-external.yaml` copys `enshrouded_server_external.json` into container to replace the default config file to make it simpler to change all of the sever settings and user groups more info on settings [here](https://enshrouded.zendesk.com/hc/en-us/articles/16055441447709-Dedicated-Server-Configuration)
 
 ### Docker
 
@@ -116,7 +116,7 @@ services:
       - EXTERNAL_CONFIG=1
     volumes:
       - 'enshrouded-persistent-data:/home/steam/enshrouded/savegame'
-      - ./enshrouded_server_extenal.json:/home/steam/enshrouded/enshrouded_server.json #replaces defaut configuration file
+      - ./enshrouded_server_external.json:/home/steam/enshrouded/enshrouded_server.json #replaces defaut configuration file
     restart: unless-stopped
 
 volumes: 
