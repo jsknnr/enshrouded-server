@@ -40,6 +40,8 @@ if [ "$EXTERNAL_CONFIG" -eq 0 ]; then
         SERVER_IP='0.0.0.0'
         echo "$(timestamp) WARN: SERVER_IP not set, using default: 0.0.0.0"
     fi
+else
+    echo "$(timestamp) INFO: EXTERNAL_CONFIG is set, skipping environment default validation"
 fi
 
 # Fix for potential bad steam update state

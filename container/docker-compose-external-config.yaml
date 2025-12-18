@@ -1,0 +1,23 @@
+services:
+  enshrouded:
+    container_name: 'enshrouded-server'
+    image: sknnr/enshrouded-dedicated-server:latest
+    ports:
+      - "15637:15637/udp"
+    environment:
+      - EXTERNAL_CONFIG=1
+    volumes:
+      - 'enshrouded-persistent-data:/home/steam/enshrouded/savegame'
+      - ./enshrouded_server_extenal.json:/home/steam/enshrouded/enshrouded_server.json #replaces defaut configuration file
+    restart: unless-stopped
+
+volumes: 
+  enshrouded-persistent-data:
+    # to set up a persistent volume, you can use the local driver with a bind mount
+    # Uncomment the following lines to use a local directory for persistent data storage
+    # Note: Ensure the path exists on your host machine before starting the container
+    # driver: local
+    # driver_opts:
+    #   type: none
+    #   device: /path/to/your/host/directory # Change this to your desired host directory
+    #   o: bind # This volume is bound to the host directory for persistent data storage
