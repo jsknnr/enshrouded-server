@@ -42,6 +42,8 @@ if [ "$EXTERNAL_CONFIG" -eq 0 ]; then
     fi
 fi
 
+# Fix for potential bad steam update state
+rm -f "$ENSHROUDED_PATH/steamapps/appmanifest_*.acf " >/dev/null 2>&1
 # Install/Update Enshrouded
 echo "$(timestamp) INFO: Updating Enshrouded Dedicated Server"
 ${STEAMCMD_PATH}/steamcmd.sh +@sSteamCmdForcePlatformType windows +force_install_dir "$ENSHROUDED_PATH" +login anonymous +app_update ${STEAM_APP_ID} validate +quit
@@ -89,6 +91,20 @@ if [ $EXTERNAL_CONFIG -eq 0 ]; then
     jq --arg s "$SERVER_SLOTS" '.slotCount = ($s | tonumber)' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
     jq --arg i "$SERVER_IP" '.ip = $i' ${ENSHROUDED_CONFIG} > "$tmpfile" && mv "$tmpfile" $ENSHROUDED_CONFIG
 else
+    if [ ! -f "${ENSHROUDED_CONFIG}" ]; then
+        echo ""
+        echo "$(timestamp) ERROR: EXTERNAL_CONFIG is set to true but no configuration file was found at ${ENSHROUDED_CONFIG}"
+        echo "please ensure that you have mounted a valid configuration file to this location"
+        echo ""
+        exit 1
+    elif [ ls -l "${ENSHROUDED_CONFIG}" | awk '{print $3":"$4}' != "steam:steam" ]; then
+        echo ""
+        echo "$(timestamp) ERROR: The ownership of your external configuration file is not correct..."
+        echo "the file that you are mounting into the container needs to be owned by 10000:10000"
+        echo "from your container host attempt the following command 'chown 10000:10000 /your/enshrouded/enshrouded_server.json'"
+        echo ""
+        exit 1
+    fi
     echo "$(timestamp) INFO: EXTERNAL_CONFIG set to true, not updating Enshrouded Server configuration"
 fi
 
