@@ -20,11 +20,21 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
           git clone https://github.com/jsknnr/helm-charts.git
           cd helm-charts/charts
+
           [ ! -d "${{env.CHART_NAME}}" ] && mkdir "${{env.CHART_NAME}}"
           cp -r ../../helm/* ./"${{env.CHART_NAME}}"/
-          git remote set-url origin 'https://${{secrets.ACTIONS_GITHUB_TOKEN}}@github.com/jsknnr/helm-charts.git'
+
+          git remote set-url origin "https://${{secrets.ACTIONS_GITHUB_TOKEN}}@github.com/jsknnr/helm-charts.git"
+          
           git add .
-          git commit -m "Automated commit from GitHub Actions for ${{env.CHART_NAME}}"
-          git push origin main
+
+          # Only commit if there are changes
+          if git diff-index --quiet HEAD --; then
+            echo "No changes to commit"
+          else
+            git commit -m "Automated commit from GitHub Actions for ${{env.CHART_NAME}}"
+            git push origin main
+          fi
