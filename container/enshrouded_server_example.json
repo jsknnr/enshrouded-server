@@ -52,23 +52,13 @@
 	},
 	"userGroups": [
 		{
-			"name": "Admin",
-			"password": "changemeplease",
+			"name": "Default",
+			"password": "",
 			"canKickBan": true,
 			"canAccessInventories": true,
 			"canEditWorld": true,
 			"canEditBase": true,
 			"canExtendBase": true,
-			"reservedSlots": 0
-		},
-		{
-			"name": "Friend",
-			"password": "alsochangemeplease",
-			"canKickBan": false,
-			"canAccessInventories": true,
-			"canEditWorld": true,
-			"canEditBase": true,
-			"canExtendBase": false,
 			"reservedSlots": 0
 		}
 	],
