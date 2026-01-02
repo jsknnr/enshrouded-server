@@ -36,8 +36,8 @@ else
         echo "$(timestamp) ERROR: EXTERNAL_CONFIG set but config not found at $ENSHROUDED_CONFIG"
         exit 1
     fi
-    if [ "$(stat -c '%u:%g' "$ENSHROUDED_CONFIG")" != "10000:10000" ]; then
-        echo "$(timestamp) ERROR: External config ownership must be 10000:10000"
+    if [ "$(stat -c '%u:%g' "$ENSHROUDED_CONFIG")" != "10000:10000" ] && [ "$(stat -c '%u:%g' "$ENSHROUDED_CONFIG")" != "0:10000" ]; then
+        echo "$(timestamp) ERROR: External config ownership must be 10000:10000 or 0:10000"
         echo "$(timestamp) INFO: Current ownership is $(stat -c '%u:%g' "$ENSHROUDED_CONFIG")"
         echo "$(timestamp) INFO: Adjust ownership and restart the container (e.g. sudo chown 10000:10000 /path/to/your/enshrouded_server.json)"
         exit 1
