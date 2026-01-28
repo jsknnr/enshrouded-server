@@ -17,6 +17,8 @@ volumes:
   dataPVC:
     # -- Size of the persistent volume
     size: 50Gi
+    # -- Annotations for the PVC
+    annotations: {}
   storageClassName: ""
 
 config:
