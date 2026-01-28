@@ -23,6 +23,7 @@ Enshrouded dedicated server.
 | service.annotations | object | `{}` |  |
 | service.externalIPs | list | `[]` |  |
 | service.type | string | `"LoadBalancer"` |  |
+| volumes.dataPVC.annotations | object | `{}` | Annotations for the PVC |
 | volumes.dataPVC.size | string | `"50Gi"` | Size of the persistent volume |
 | volumes.storageClassName | string | `""` |  |
 
