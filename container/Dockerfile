@@ -9,8 +9,8 @@ ENV HOME="/home/steam"
 ENV ENSHROUDED_PATH="/home/steam/enshrouded"
 ENV ENSHROUDED_CONFIG="${ENSHROUDED_PATH}/enshrouded_server.json"
 ENV EXTERNAL_CONFIG="0"
-ENV GE_PROTON_VERSION="10-26"
-ENV GE_PROTON_URL="https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton${GE_PROTON_VERSION}/GE-Proton${GE_PROTON_VERSION}.tar.gz"
+ENV GE_PROTON_VERSION="11-9"
+ENV GE_PROTON_URL="https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton${GE_PROTON_VERSION}/GE-Proton${GE_PROTON_VERSION}-x86_64.tar.gz"
 ENV STEAMCMD_PATH="/home/steam/steamcmd"
 ENV STEAM_SDK64_PATH="/home/steam/.steam/sdk64"
 ENV STEAM_SDK32_PATH="/home/steam/.steam/sdk32"
@@ -28,6 +28,7 @@ RUN groupadd -g $CONTAINER_GID steam \
         winbind \
         dbus \
         libfreetype6 \
+        libvulkan1 \
         curl \
         jq \
         locales \
@@ -56,7 +57,11 @@ RUN mkdir "$ENSHROUDED_PATH" \
     && ln -s ${STEAM_SDK64_PATH}/steamclient.so ${STEAM_SDK64_PATH}/steamservice.so \
     && ln -s ${STEAMCMD_PATH}/linux32 ${STEAM_SDK32_PATH} \
     && ln -s ${STEAM_SDK32_PATH}/steamclient.so ${STEAM_SDK32_PATH}/steamservice.so \
-    && curl -sqL "$GE_PROTON_URL" | tar zxvf - -C "${STEAMCMD_PATH}/compatibilitytools.d/" 
+    && curl -sqL "$GE_PROTON_URL" | tar zxvf - -C "${STEAMCMD_PATH}/compatibilitytools.d/" \
+    && mv "${STEAMCMD_PATH}/compatibilitytools.d/GE-Proton${GE_PROTON_VERSION}-x86_64" "${STEAMCMD_PATH}/compatibilitytools.d/GE-Proton${GE_PROTON_VERSION}" \
+    # GE-Proton 11 umu mode disables lsteamclient, which the server needs for Steamworks
+    && sed -i 's/append_to_env_str(self.env, "WINEDLLOVERRIDES", "lsteamclient=d", ";")/pass/' "${STEAMCMD_PATH}/compatibilitytools.d/GE-Proton${GE_PROTON_VERSION}/proton" \
+    && ! grep -q "lsteamclient=d" "${STEAMCMD_PATH}/compatibilitytools.d/GE-Proton${GE_PROTON_VERSION}/proton"
     
 COPY entrypoint.sh /home/steam/entrypoint.sh
 COPY enshrouded_server_example.json /home/steam/enshrouded_server_example.json
