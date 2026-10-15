@@ -124,19 +124,22 @@ export WINEDEBUG=-all
 
 echo "$(timestamp) INFO: Starting Enshrouded Dedicated Server"
 
+# Relative exe path so Proton launches it directly; with an absolute path it goes
+# through umu.exe, which blocks the server at startup once lsteamclient is enabled.
+cd "$ENSHROUDED_PATH"
 "${STEAMCMD_PATH}/compatibilitytools.d/GE-Proton${GE_PROTON_VERSION}/proton" \
-    run "$ENSHROUDED_PATH/enshrouded_server.exe" &
+    run enshrouded_server.exe &
 
 # Wait for server to be up by checking UDP port
 echo "$(timestamp) INFO: Waiting for server to be up and listening on UDP port $QUERY_PORT"
 
-for i in {1..30}; do
+for i in {1..150}; do
     if awk '{print $2}' /proc/net/udp | grep -q ":$QUERY_PORT_HEX$"; then
         echo "$(timestamp) INFO: Server is up and listening on UDP port $QUERY_PORT"
         break
     fi
 
-    if [ "$i" -eq 30 ]; then
+    if [ "$i" -eq 150 ]; then
         echo "$(timestamp) ERROR: Timed out waiting for server to be up and listening on UDP port $QUERY_PORT"
         exit 1
     fi

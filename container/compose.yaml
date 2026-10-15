@@ -2,6 +2,8 @@ version: '3'
 services:
   enshrouded:
     container_name: 'enshrouded-server'
+    # To build the image from this repo instead of pulling it, replace the
+    # image line below with "build: ." and run "docker compose up -d --build".
     image: sknnr/enshrouded-dedicated-server:latest
     ports:
       - "15637:15637/udp"
