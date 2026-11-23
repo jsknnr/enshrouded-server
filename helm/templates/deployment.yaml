@@ -71,5 +71,5 @@ spec:
       {{- if .Values.volumes.serverFilesPVC.enabled }}
       - name: server-files
         persistentVolumeClaim:
-          claimName: "{{ .Chart.Name }}-server-files"
+          claimName: {{ .Values.volumes.serverFilesPVC.existingClaim | default (printf "%s-server-files" .Chart.Name) | quote }}
       {{- end }}
