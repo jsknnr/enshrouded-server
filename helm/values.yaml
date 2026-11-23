@@ -17,6 +17,12 @@ volumes:
   dataPVC:
     # -- Size of the persistent volume
     size: 50Gi
+  serverFilesPVC:
+    # -- Store the downloaded server files (~8 GB) on a persistent volume mounted at /home/steam/enshrouded,
+    # so they are not downloaded again on every pod restart. SteamCMD then only validates and fetches updates.
+    enabled: false
+    # -- Size of the server files volume
+    size: 30Gi
   storageClassName: ""
 
 config:

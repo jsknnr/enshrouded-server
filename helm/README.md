@@ -24,6 +24,8 @@ Enshrouded dedicated server.
 | service.externalIPs | list | `[]` |  |
 | service.type | string | `"LoadBalancer"` |  |
 | volumes.dataPVC.size | string | `"50Gi"` | Size of the persistent volume |
+| volumes.serverFilesPVC.enabled | bool | `false` | Store the downloaded server files (~8 GB) on a persistent volume mounted at /home/steam/enshrouded, so they are not downloaded again on every pod restart. SteamCMD then only validates and fetches updates. |
+| volumes.serverFilesPVC.size | string | `"30Gi"` | Size of the server files volume |
 | volumes.storageClassName | string | `""` |  |
 
 ----------------------------------------------

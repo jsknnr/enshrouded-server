@@ -1,6 +1,6 @@
 apiVersion: v1
 name: enshrouded-dedicated-server
-version: 1.0.1
+version: 1.1.0
 description: Enshrouded dedicated server.
 keywords:
 - game
