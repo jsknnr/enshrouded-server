@@ -22,8 +22,14 @@ Enshrouded dedicated server.
 | resources.requests.memory | string | `"12G"` |  |
 | service.annotations | object | `{}` |  |
 | service.externalIPs | list | `[]` |  |
+| service.labels | object | `{}` | Extra labels for the service (e.g. for a Cilium L2 announcement or MetalLB selector) |
 | service.type | string | `"LoadBalancer"` |  |
+| volumes.dataPVC.labels | object | `{}` | Extra labels for the data PVC (e.g. to exclude it from or include it in backups) |
 | volumes.dataPVC.size | string | `"50Gi"` | Size of the persistent volume |
+| volumes.serverFilesPVC.enabled | bool | `false` | Store the downloaded server files (~8 GB) on a persistent volume mounted at /home/steam/enshrouded, so they are not downloaded again on every pod restart. SteamCMD then only validates and fetches updates. |
+| volumes.serverFilesPVC.existingClaim | string | `""` | Use an existing PVC for the server files instead of creating one |
+| volumes.serverFilesPVC.labels | object | `{}` | Extra labels for the server files PVC (e.g. to exclude it from backups, the files can always be downloaded again) |
+| volumes.serverFilesPVC.size | string | `"30Gi"` | Size of the server files volume |
 | volumes.storageClassName | string | `""` |  |
 
 ----------------------------------------------

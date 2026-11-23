@@ -55,6 +55,10 @@ spec:
           containerPort: {{ .Values.config.steamPort | int }}
           protocol: UDP
         volumeMounts:
+        {{- if .Values.volumes.serverFilesPVC.enabled }}
+        - name: server-files
+          mountPath: /home/steam/enshrouded
+        {{- end }}
         - name: data
           mountPath: /home/steam/enshrouded/savegame
         securityContext:
@@ -64,3 +68,8 @@ spec:
       - name: data
         persistentVolumeClaim:
           claimName: "{{ .Chart.Name }}-data"
+      {{- if .Values.volumes.serverFilesPVC.enabled }}
+      - name: server-files
+        persistentVolumeClaim:
+          claimName: {{ .Values.volumes.serverFilesPVC.existingClaim | default (printf "%s-server-files" .Chart.Name) | quote }}
+      {{- end }}

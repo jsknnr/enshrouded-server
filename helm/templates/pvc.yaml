@@ -7,6 +7,9 @@ metadata:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
+    {{- with .Values.volumes.dataPVC.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
 spec:
   accessModes:
     - ReadWriteOnce
@@ -16,3 +19,27 @@ spec:
   {{- if ne .Values.volumes.storageClassName "" }}
   storageClassName: {{ .Values.volumes.storageClassName }}
   {{- end }}
+{{- if and .Values.volumes.serverFilesPVC.enabled (not .Values.volumes.serverFilesPVC.existingClaim) }}
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: "{{ .Chart.Name }}-server-files"
+  labels:
+    app: "{{ .Chart.Name }}"
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+    {{- with .Values.volumes.serverFilesPVC.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.volumes.serverFilesPVC.size }}
+  {{- if ne .Values.volumes.storageClassName "" }}
+  storageClassName: {{ .Values.volumes.storageClassName }}
+  {{- end }}
+{{- end }}

@@ -7,6 +7,8 @@ service:
   type: LoadBalancer
   externalIPs: []
   annotations: {}
+  # -- Extra labels for the service (e.g. for a Cilium L2 announcement or MetalLB selector)
+  labels: {}
 
 resources:
   requests:
@@ -17,6 +19,18 @@ volumes:
   dataPVC:
     # -- Size of the persistent volume
     size: 50Gi
+    # -- Extra labels for the data PVC (e.g. to exclude it from or include it in backups)
+    labels: {}
+  serverFilesPVC:
+    # -- Store the downloaded server files (~8 GB) on a persistent volume mounted at /home/steam/enshrouded,
+    # so they are not downloaded again on every pod restart. SteamCMD then only validates and fetches updates.
+    enabled: false
+    # -- Size of the server files volume
+    size: 30Gi
+    # -- Use an existing PVC for the server files instead of creating one
+    existingClaim: ""
+    # -- Extra labels for the server files PVC (e.g. to exclude it from backups, the files can always be downloaded again)
+    labels: {}
   storageClassName: ""
 
 config:
